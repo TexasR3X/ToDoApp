@@ -1,0 +1,31 @@
+@use "colors";
+
+// Rubik font is imported.
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+$main-font: Rubik;
+
+
+@mixin card($color) {
+    background: $color;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: $main-font;
+}
+
+body {
+    background: colors.$primary-light;
+}
+
+div.row {
+    margin: -2rem;
+}
+.listContainer {
+    @include card(colors.$primary-middle);
+
+    margin: 1rem;
+}
