@@ -22,10 +22,8 @@ body {
 }
 
 div.row {
-    margin: -2rem;
+    gap: 1rem 0;
 }
 .listContainer {
     @include card(colors.$primary-middle);
-
-    margin: 1rem;
 }

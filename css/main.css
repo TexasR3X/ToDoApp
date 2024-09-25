@@ -10,12 +10,11 @@ body {
 }
 
 div.row {
-  margin: -2rem;
+  gap: 1rem 0;
 }
 
 .listContainer {
   background: #3ad8ff;
   border-radius: 1rem;
   padding: 1rem 1rem;
-  margin: 1rem;
 }/*# sourceMappingURL=main.css.map */
