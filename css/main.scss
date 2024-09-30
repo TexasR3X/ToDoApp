@@ -24,6 +24,6 @@ body {
 div.row {
     gap: 1rem 0;
 }
-.listContainer {
+.listContainer, .addNewList {
     @include card(colors.$primary-middle);
 }

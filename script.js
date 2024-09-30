@@ -1,9 +1,24 @@
 const body = document.querySelector("body");
 const addItemElms = document.querySelectorAll("button.addItem");
 
-console.log("document:", document);
+let lists = [];
 
-function appendElm(parent, child) {document.querySelector(parent).appendChild(child);}
+class List {
+    constructor(...initialListItems) {
+        this.list = initialListItems;
+    }
+
+    append(...items) {
+        items.forEach((item) => {
+            this.list.push(item);
+        });
+    }
+}
+
+function appendElm(parent, child) {
+    const newElm = document.createElement(child);
+    document.querySelector(parent).appendChild(newElm);
+}
 
 // function addListItem() {
 //     const newElm = document.createElement("li");

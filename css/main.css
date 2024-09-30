@@ -13,7 +13,7 @@ div.row {
   gap: 1rem 0;
 }
 
-.listContainer {
+.listContainer, .addNewList {
   background: #3ad8ff;
   border-radius: 1rem;
   padding: 1rem 1rem;
