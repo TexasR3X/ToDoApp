@@ -18,11 +18,17 @@ body {
 .listContainer ul, .addNewList ul {
   padding-left: 1.5rem;
 }
-
-button {
+.listContainer ul li input, .addNewList ul li input {
+  border: 0;
   border-radius: 5rem;
   padding: 0.2rem 0.5rem;
+  background: #3ad8ff;
+}
+
+button {
   border: 0;
+  border-radius: 5rem;
+  padding: 0.2rem 0.5rem;
   background: #caf4ff;
   cursor: pointer;
 }/*# sourceMappingURL=main.css.map */

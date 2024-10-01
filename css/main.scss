@@ -4,6 +4,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 $main-font: Rubik;
 
+@mixin round-border {
+    border: 0;
+    border-radius: 5rem;
+    padding: 0.2rem 0.5rem;
+}
 
 // @mixin card($color) {
 //     background: $color;
@@ -29,13 +34,16 @@ body {
 
     ul {
         padding-left: 1.5rem;
+
+        li input {
+            @include round-border;
+            background: colors.$primary-3;
+        }
     }
 }
 
 button {
-    border-radius: 5rem;
-    padding: 0.2rem 0.5rem;
-    border: 0;
+    @include round-border;
     background: colors.$primary-1;
     cursor: pointer;
 }
