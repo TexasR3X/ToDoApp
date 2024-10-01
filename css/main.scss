@@ -5,11 +5,11 @@
 $main-font: Rubik;
 
 
-@mixin card($color) {
-    background: $color;
-    border-radius: 1rem;
-    padding: 1rem 1rem;
-}
+// @mixin card($color) {
+//     background: $color;
+//     border-radius: 1rem;
+//     padding: 1rem 1rem;
+// }
 
 * {
     margin: 0;
@@ -18,12 +18,24 @@ $main-font: Rubik;
 }
 
 body {
-    background: colors.$primary-light;
+    background: colors.$primary-1;
 }
 
-div.row {
-    gap: 1rem 0;
-}
 .listContainer, .addNewList {
-    @include card(colors.$primary-middle);
+    background: colors.$primary-3;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin: 1rem;
+
+    ul {
+        padding-left: 1.5rem;
+    }
+}
+
+button {
+    border-radius: 5rem;
+    padding: 0.2rem 0.5rem;
+    border: 0;
+    background: colors.$primary-1;
+    cursor: pointer;
 }

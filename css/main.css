@@ -9,12 +9,20 @@ body {
   background: #caf4ff;
 }
 
-div.row {
-  gap: 1rem 0;
-}
-
 .listContainer, .addNewList {
   background: #3ad8ff;
   border-radius: 1rem;
   padding: 1rem 1rem;
+  margin: 1rem;
+}
+.listContainer ul, .addNewList ul {
+  padding-left: 1.5rem;
+}
+
+button {
+  border-radius: 5rem;
+  padding: 0.2rem 0.5rem;
+  border: 0;
+  background: #caf4ff;
+  cursor: pointer;
 }/*# sourceMappingURL=main.css.map */
