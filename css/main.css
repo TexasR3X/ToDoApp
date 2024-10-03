@@ -9,16 +9,16 @@ body {
   background: #caf4ff;
 }
 
-.listContainer, .addNewList {
+.list-container, .add-new-list {
   background: #3ad8ff;
   border-radius: 1rem;
   padding: 1rem 1rem;
   margin: 1rem;
 }
-.listContainer ul, .addNewList ul {
+.list-container ul, .add-new-list ul {
   padding-left: 1.5rem;
 }
-.listContainer ul li input, .addNewList ul li input {
+.list-container ul li input, .add-new-list ul li input {
   border: 0;
   border-radius: 5rem;
   padding: 0.2rem 0.5rem;

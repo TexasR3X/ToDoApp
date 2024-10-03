@@ -1,8 +1,11 @@
-import * as htmlElms from "./htmlElms.js";
-import * as classes from "./classes.js";
+// ============================== main.js stores the bulk of the code for the ToDoApp ============================== //
+import { ListOfLists, ListContainer } from "./classes.js";
 
+const mainElm = document.querySelector("main");
+
+// Test code to add data to local storage.
 // window.localStorage.clear();
-// window.localStorage.setItem("lists",
+// window.localStorage.setItem("listOfLists",
 //     `[
 //         {
 //             "name": "Homework",
@@ -21,12 +24,10 @@ import * as classes from "./classes.js";
 //         }
 //     ]`);
 
-let lists = JSON.parse(window.localStorage.getItem("lists"));
-console.log("lists:", lists);
-
-let mainHTML = "";
-
-
+// When the page loads, this retrieves the data from local storage and puts it into listOfLists.
+const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
+// This takes the data from listOfLists variable, writes it as HTML, and puts it into the <main> element.
+mainElm.innerHTML = listOfLists.toHTML();
 
 
 
@@ -35,13 +36,20 @@ let mainHTML = "";
 
 
 
-// .................................... //
-const buildListContainer = () => {
+    
+
+
+
+const upDateHTML = () => {
 
 };
 
+
+// .................................... //
+
+
 // I should put this in buildListContainer();
-lists.forEach((val, i) => {
+listOfLists.forEach((val, i) => {
     val.list.forEach((item, j) => {
         mainHTML += `<li>${item}</li>`
     });
