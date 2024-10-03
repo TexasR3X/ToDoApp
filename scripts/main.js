@@ -2,6 +2,7 @@
 import { ListOfLists, ListContainer } from "./classes.js";
 
 const mainElm = document.querySelector("main");
+const addItemElm = document.querySelectorAll("button.add-item");
 
 // Test code to add data to local storage.
 // window.localStorage.clear();
@@ -32,6 +33,9 @@ mainElm.innerHTML = listOfLists.toHTML();
 
 
 
+buttons.forEach((button, i) => {
+    button.addEventListener("click", () => addListItem(i + 1));
+});
 
 
 
@@ -46,16 +50,6 @@ const upDateHTML = () => {
 
 
 // .................................... //
-
-
-// I should put this in buildListContainer();
-listOfLists.forEach((val, i) => {
-    val.list.forEach((item, j) => {
-        mainHTML += `<li>${item}</li>`
-    });
-});
-
-htmlElms.main.innerHTML = mainHTML;
 
 
 
@@ -79,7 +73,3 @@ function addListItem(listId) {
 }
 */
 
-const buttons = document.querySelectorAll(".addItem");
-buttons.forEach((button, i) => {
-    button.addEventListener("click", () => addListItem(i + 1));
-});

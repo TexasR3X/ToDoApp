@@ -25,7 +25,12 @@ export class ListOfLists {
     toHTML() {
         let output = "";
         for (let i = 0; i < this.length; i++) { output += ` ${this[i].toHTML()} `; }
-        return output;
+        return output += `
+            <div class="add-new-list">
+                <h2>Create New List</h2>
+                +
+            </div>
+        `;
     }
 }
 
@@ -47,11 +52,13 @@ export class ListContainer {
         let ulElm = "";
         this.list.forEach((item) => { ulElm += ` <li>${item}</li> `; });
 
-        return `<div id="list-${this.index}" class="list-container">
-                    <h2>${this.name}</h2>
-                    <ul>${ulElm}</ul>
-                    <button class="addItem">Add Item</button>
-                </div>`;
+        return `
+            <div id="list-${this.index}" class="list-container">
+                <h2>${this.name}</h2>
+                <ul>${ulElm}</ul>
+                <button class="addItem">Add Item</button>
+            </div>
+        `;
     }
 }
 
