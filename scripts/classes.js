@@ -56,7 +56,7 @@ export class ListContainer {
             <div id="list-${this.index}" class="list-container">
                 <h2>${this.name}</h2>
                 <ul>${ulElm}</ul>
-                <button class="addItem">Add Item</button>
+                <button class="add-item">Add Item</button>
             </div>
         `;
     }

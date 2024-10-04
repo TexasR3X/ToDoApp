@@ -2,7 +2,7 @@
 import { ListOfLists, ListContainer } from "./classes.js";
 
 const mainElm = document.querySelector("main");
-const addItemElm = document.querySelectorAll("button.add-item");
+const addItemElms = document.querySelectorAll("button.add-item");
 
 // Test code to add data to local storage.
 // window.localStorage.clear();
@@ -31,12 +31,51 @@ const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
 mainElm.innerHTML = listOfLists.toHTML();
 
 
+// mainElm.addEventListener("change", function (event) {
+//     // "new-li-input"
+//     if (event.target.id === "new-li-input") {
+
+//     }
+// });
+
+const addListItem = (event) => {
+    if (event.target.className === "add-item") {
+        // This will get the id of the div.list-container that the button.add-item is in.
+        const id = event.target.parentNode.id;
+
+        
+        // This will add a new li to the ul child of div.list-container.
+        document.querySelector(`#${id} ul`).innerHTML += `<li><input id="new-li-input" type="text"></li>`;
+
+        const newLiInput = document.querySelector("#new-li-input");
+
+        newLiInput.focus();
+        newLiInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                newLiInput.blur()
+            }
+        });
+        newLiInput.addEventListener("blur", () => {
+            const newTask = newLiInput.value;
+            console.log("newTask:", newTask);
+            if (newTask !== "") { newLiInput.parentNode.innerHTML = `<li>${newTask}</li>`; }
+            else { newLiInput.parentNode.remove(); }
+        });
+    }
+}
+mainElm.addEventListener("click", (event) => addListItem(event));
 
 
-buttons.forEach((button, i) => {
-    button.addEventListener("click", () => addListItem(i + 1));
-});
 
+
+
+/*
+const addListItem = (id) => {
+    // Change to maybe this later `<li><input id="new-li-input" type="text"></li>`
+    document.querySelector(`#list-${id} ul`).innerHTML += `<li>My new item to do!</li>`;
+    // document.querySelector(`#list-${id} ul input`).focus();
+}
+*/
 
 
 
