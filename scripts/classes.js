@@ -11,17 +11,12 @@ export class ListOfLists {
 
         let count = 0;
         for (let i = 0; i < listOfLists.length; i++) {
-            this[i] = new ListContainer(listOfLists[i].name, listOfLists[i].index, listOfLists[i].list);
+            this[i] = new ListContainer(listOfLists[i].name, listOfLists[i].id, listOfLists[i].list);
             count++;
         }
         this.length = count;
     }
 
-    // getLength() {
-    //     let length = 0;
-    //     for (let i in this) { length++; }
-    //     return length - 1;
-    // }
     toHTML() {
         let output = "";
         for (let i = 0; i < this.length; i++) { output += ` ${this[i].toHTML()} `; }
@@ -32,19 +27,24 @@ export class ListOfLists {
             </div>
         `;
     }
+    getListContainer(id) {
+        for (let list in this) {
+            if (list.id === id) { return list; }
+        }
+    }
 }
 
 export class ListContainer {
-    constructor(name, index, list) {
+    constructor(name, id, list) {
         this.name = name;
-        this.index = index;
+        this.id = id;
         this.list = list;
     }
 
     toObjectLiteral() {
         return {
             name: this.name,
-            index: this.index,
+            id: this.id,
             list: this.list
         };
     }
@@ -53,7 +53,7 @@ export class ListContainer {
         this.list.forEach((item) => { ulElm += ` <li>${item}</li> `; });
 
         return `
-            <div id="list-${this.index}" class="list-container">
+            <div id="list-${this.id}" class="list-container">
                 <h2>${this.name}</h2>
                 <ul>${ulElm}</ul>
                 <button class="add-item">Add Item</button>
@@ -62,3 +62,23 @@ export class ListContainer {
     }
 }
 
+// Test code to add data to local storage.
+// window.localStorage.clear();
+// window.localStorage.setItem("listOfLists",
+//     `[
+//         {
+//             "name": "Homework",
+//             "id": 100,
+//             "list": ["a", "b", "c"]
+//         },
+//         {
+//             "name": "Another name that will not be seen",
+//             "id": 2,
+//             "list": [1, 2.817, 3.14, 5]
+//         },
+//         {
+//             "name": "Web Dev",
+//             "id": 21,
+//             "list": ["All of the work!"]
+//         }
+//     ]`);
