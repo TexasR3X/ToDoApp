@@ -2,7 +2,6 @@
 import { ListOfLists, List } from "./classes.js";
 
 const mainElm = document.querySelector("main");
-const addItemElms = document.querySelectorAll("button.add-item");
 
 // When the page loads, this retrieves the data from local storage and puts it into listOfLists.
 const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
@@ -28,43 +27,18 @@ mainElm.addEventListener("click", (event) => {
         // This makes it so once newLiInput is blurred, it is replaced with newLiInput.value
         newLiInput.addEventListener("blur", () => {
             const newTask = newLiInput.value;
-            const liParent = newLiInput.parentNode;
-
-            if (newTask !== "") { liParent.innerHTML = `<li>${newTask}</li>`; }
-            else { liParent.remove(); }
             
-            listOfLists.getListByHTMLId(liParent.parentNode.parentNode.id).push(newTask);
+            const newLi = newLiInput.parentNode;
 
-            console.log("listOfLists:", listOfLists);
+            if (newTask !== "") {
+                newLi.innerHTML = `<li>${newTask}</li>`;
+                listOfLists.getListByHTMLId(newLi.parentNode.parentNode.id).push(newTask);
 
-            listOfLists.updateLocalStorage();
+                listOfLists.updateLocalStorage();
+            }
+            else { newLi.remove(); }
         });
     }
 });
 
-
-
-// .................................... //
-
-
-
-function appendElm(parent, child) {
-    const newElm = document.createElement(child);
-    document.querySelector(parent).appendChild(newElm);
-}
-/*
-const buttons = document.querySelectorAll(".addItem");
-buttons.forEach((button, i) => {
-    console.log("button:", button);
-    button.addEventListener("click", () => addListItem(i + 1));
-});
-
-function addListItem(listId) {
-    const newElm = document.createElement("li");
-    newElm.innerHTML = `<input type="text">`;
-
-    document.querySelector(`#list-${listId} ul`).appendChild(newElm);
-    document.querySelector(`#list-${listId} ul li:last-child input`).focus();
-}
-*/
-
+//

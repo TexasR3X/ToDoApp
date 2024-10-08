@@ -52,7 +52,7 @@ export class ListOfLists {
         let jsonString = "[";
         for (let list of Object.values(this.lists)) { jsonString += ` ${list.toString()},`; }
         jsonString = jsonString.slice(0, jsonString.length - 1);
-        console.log("jsonString:", jsonString);
+        
         jsonString += " ]";
 
         window.localStorage.setItem("listOfLists", jsonString);
@@ -84,14 +84,7 @@ export class List {
             </div>
         `;
     }
-    toString() {
-        let itemsString = JSON.stringify(this.items);
-        console.log("itemsString:", itemsString);
-        itemsString = itemsString.replaceAll(`","`, `", "`);
-        console.log("itemsString:", itemsString);
-
-        return `{ "name": "${this.name}", "order": null, "items": ${JSON.stringify(this.items).replaceAll(`","`, `", "`)} }`;
-    }
+    toString() { return `{ "name": "${this.name}", "order": null, "items": ${JSON.stringify(this.items)} }`; }
     push(item) { this.items.push(item); }
 }
 
