@@ -29,13 +29,15 @@ mainElm.addEventListener("click", (event) => {
         newLiInput.addEventListener("blur", () => {
             const newTask = newLiInput.value;
             const liParent = newLiInput.parentNode;
-            
+
             if (newTask !== "") { liParent.innerHTML = `<li>${newTask}</li>`; }
             else { liParent.remove(); }
             
             listOfLists.getListByHTMLId(liParent.parentNode.parentNode.id).push(newTask);
 
             console.log("listOfLists:", listOfLists);
+
+            listOfLists.updateLocalStorage();
         });
     }
 });
