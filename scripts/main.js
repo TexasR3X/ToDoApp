@@ -1,5 +1,5 @@
 // ============================== main.js stores the bulk of the code for the ToDoApp ============================== //
-import { ListOfLists, ListContainer } from "./classes.js";
+import { ListOfLists, List } from "./classes.js";
 
 const mainElm = document.querySelector("main");
 const addItemElms = document.querySelectorAll("button.add-item");
@@ -28,14 +28,17 @@ mainElm.addEventListener("click", (event) => {
         // This makes it so once newLiInput is blurred, it is replaced with newLiInput.value
         newLiInput.addEventListener("blur", () => {
             const newTask = newLiInput.value;
-            if (newTask !== "") { newLiInput.parentNode.innerHTML = `<li>${newTask}</li>`; }
-            else { newLiInput.parentNode.remove(); }
+            const liParent = newLiInput.parentNode;
+            if (newTask !== "") { liParent.innerHTML = `<li>${newTask}</li>`; }
+            else { liParent.remove(); }
+
+
         });
 
         // // This updates listOfLists.
-        // console.log("listOfLists:", listOfLists);
-        // let W = listOfLists
-        // console.log("W:", W);
+        console.log("listOfLists:", listOfLists);
+        let W = listOfLists
+        console.log("W:", W);
     }
 });
 

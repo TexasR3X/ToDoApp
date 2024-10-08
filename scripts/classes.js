@@ -2,16 +2,16 @@
 
 // The ListOfLists class will be used for the listOfLists variable in main.js
 // A ListOfLists object will mimic the following format: [{}, {}, {}, ...]
-// It will technically be in the following format: ListOfLists {0: ListContainer {}, 1: ListContainer {}, 2: ListContainer {}, ...}
+// It will technically be in the following format: ListOfLists {0: List {}, 1: List {}, 2: List {}, ...}
     // On the outside, the ListOfLists class will mimic an array.
-    // For the most part, each element of the fake array will be a ListContainer object.
+    // For the most part, each element of the fake array will be a List object.
 export class ListOfLists {
     constructor(listOfLists) {
         if (typeof listOfLists) { listOfLists = JSON.parse(listOfLists); }
 
         let count = 0;
         for (let i = 0; i < listOfLists.length; i++) {
-            this[i] = new ListContainer(listOfLists[i].name, listOfLists[i].id, listOfLists[i].list);
+            this[i] = new List(listOfLists[i].name, listOfLists[i].id, listOfLists[i].items);
             count++;
         }
         this.length = count;
@@ -27,30 +27,29 @@ export class ListOfLists {
             </div>
         `;
     }
-    getListContainer(id) {
+    getList(id) {
         for (let list in this) {
-            if (list.id === id) { return list; }
-        }
+            if (list.id === id) { return list; } }
     }
 }
 
-export class ListContainer {
-    constructor(name, id, list) {
+export class List {
+    constructor(name, listId, items) {
         this.name = name;
-        this.id = id;
-        this.list = list;
+        this.id = listId;
+        this.items = items;
     }
 
     toObjectLiteral() {
         return {
             name: this.name,
             id: this.id,
-            list: this.list
+            items: this.items
         };
     }
     toHTML() {
         let ulElm = "";
-        this.list.forEach((item) => { ulElm += ` <li>${item}</li> `; });
+        this.items.forEach((item) => { ulElm += ` <li>${item}</li> `; });
 
         return `
             <div id="list-${this.id}" class="list-container">
