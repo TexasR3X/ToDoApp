@@ -26,12 +26,14 @@ mainElm.addEventListener("click", (event) => {
 
         // This makes it so once newLiInput is blurred, it is replaced with newLiInput.value
         newLiInput.addEventListener("blur", () => {
-            const newTask = newLiInput.value;
+            let newTask = newLiInput.value;
+            // This ensures that HTML cannot entered into newTask.
+            newTask = newTask.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
             
             const newLi = newLiInput.parentNode;
 
-            if (newTask !== "") {
-                newLi.innerHTML = `<li>${newTask}</li>`;
+            if (newTask) {
+                newLi.innerHTML = newTask;
                 listOfLists.getListByHTMLId(newLi.parentNode.parentNode.id).push(newTask);
 
                 listOfLists.updateLocalStorage();
@@ -42,6 +44,9 @@ mainElm.addEventListener("click", (event) => {
 });
 
 //
-mainElm.addEventListener("hover", (event) => {
-
-});
+// mainElm.addEventListener("mouseenter", (event) => {
+//     if (event.target.tagName === "LI") {
+//         console.log("Enter2!");
+//         event.target.classList.add("completed");
+//     }
+// }, true);
