@@ -33,6 +33,6 @@ button {
   cursor: pointer;
 }
 
-.veryVeryBlue {
-  color: #00f;
+.completed {
+  background: #0f0;
 }/*# sourceMappingURL=main.css.map */

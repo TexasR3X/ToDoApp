@@ -1,5 +1,5 @@
 // ============================== main.js stores the bulk of the code for the ToDoApp ============================== //
-import { ListOfLists, List } from "./classes.js";
+import { ListOfLists, List, Task } from "./classes.js";
 
 const mainElm = document.querySelector("main");
 
@@ -8,11 +8,11 @@ const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
 // This takes the data from listOfLists variable, writes it as HTML, and puts it into the <main> element.
 mainElm.innerHTML = listOfLists.toHTML();
 
-// This adds an event listener to button.add-item elements.
-// It will make it so the user can add extra items to any to-do list.
+// This adds an event listener to button.add-task elements.
+// It will make it so the user can add extra tasks to any to-do list.
 mainElm.addEventListener("click", (event) => {
-    if (event.target.className === "add-item") {
-        // This will create a text box inside of the new list item.
+    if (event.target.className === "add-task") {
+        // This will create a text box inside of the new li.
         const id = event.target.parentNode.id;
         document.querySelector(`#${id} ul`).innerHTML += `<li><input id="new-li-input" type="text"></li>`;
         const newLiInput = document.querySelector("#new-li-input");
@@ -42,3 +42,6 @@ mainElm.addEventListener("click", (event) => {
 });
 
 //
+mainElm.addEventListener("hover", (event) => {
+
+});

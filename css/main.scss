@@ -22,9 +22,7 @@ $main-font: Rubik;
     font-family: $main-font;
 }
 
-body {
-    background: colors.$primary-1;
-}
+body { background: colors.$primary-1; }
 
 .list-container, .add-new-list {
     background: colors.$primary-3;
@@ -48,7 +46,4 @@ button {
     cursor: pointer;
 }
 
-// This class is here only for testing purposes, and it will be deleted later.
-.veryVeryBlue {
-    color: #00f;
-}
+.completed { background: #0f0; }
