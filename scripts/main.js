@@ -1,6 +1,7 @@
 // ============================== main.js stores the bulk of the code for the ToDoApp ============================== //
 import { ListOfLists, List, Task } from "./classes.js";
 
+const bodyElm = document.querySelector("body");
 const mainElm = document.querySelector("main");
 
 // When the page loads, this retrieves the data from local storage and puts it into listOfLists.
@@ -44,9 +45,33 @@ mainElm.addEventListener("click", (event) => {
 });
 
 //
-// mainElm.addEventListener("mouseenter", (event) => {
-//     if (event.target.tagName === "LI") {
-//         console.log("Enter2!");
-//         event.target.classList.add("completed");
-//     }
-// }, true);
+const hoverEventListener = (targetElm, selectorType, enterFn, leaveFn) => {
+    let selectorProp = null;
+    switch (selectorType.toLowerCase()) {
+        case "id":
+            selectorProp = "id";
+            break;
+        case "class":
+            selectorProp = "className";
+            break;
+        case "tag":
+            selectorProp = "tagName";
+            targetElm = targetElm.toUpperCase();
+            break;
+        default:
+            console.error("Error: Invalid selectorType");
+            break;
+    }
+    
+    bodyElm.addEventListener("mouseenter", (event) => { if (event.target[selectorProp] === targetElm) { enterFn(event.target); } }, true);
+    bodyElm.addEventListener("mouseleave", (event) => { if (event.target[selectorProp] === targetElm) { leaveFn(event.target); } }, true);
+}
+// hoverEventListener("li", "tag", (elm) => {
+//     elm.classList.add("completed");
+// }, (elm) => {
+//     elm.classList.remove("completed");
+// });
+
+const markAsComplete = (elm) => {
+
+}

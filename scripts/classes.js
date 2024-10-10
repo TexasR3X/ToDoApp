@@ -74,7 +74,13 @@ export class List {
     }
     toHTML() {
         let ulElm = "";
-        this.tasks.forEach((task) => { ulElm += ` <li class="${(task.complete)? "completed": ""}">${task.name}</li> `; });
+        this.tasks.forEach((task) => {
+            ulElm += `
+                <li class="${(task.complete)? "completed": ""}">
+                    <i class="material-symbols-outlined">${(task.complete)? "check_circle": "radio_button_unchecked"}</i>
+                    <span>${task.name}</span>
+                </li> `;
+        });
 
         return `
             <div id="list-name-${this.name}" class="list-container">
