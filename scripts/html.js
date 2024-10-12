@@ -21,13 +21,16 @@ export const buildListContainer = (listName, ulContent) => {
     `;
 }
 
-export const buildLiElm = (taskName, isComplete) => {
-    return `
-        <li class="${(isComplete)? "complete": "incomplete"}">
-            <button>${(isComplete)? "&check;": ""}</button>
-            <span>${taskName}</span>
-        </li>
-    `;
+export const buildLiElm = (taskContent, isComplete, insideOnly = false) => {
+    if (insideOnly) { return ` <button>${(isComplete)? "&check;": ""}</button> <span>${taskContent}</span> `; }
+    else {
+        return `
+            <li class="${(isComplete)? "complete": "incomplete"}">
+                <button>${(isComplete)? "&check;": ""}</button>
+                <span>${taskContent}</span>
+            </li>
+        `;
+    }
 }
 
 

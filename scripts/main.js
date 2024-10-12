@@ -26,15 +26,13 @@ const updateLi = (liElm, content) => {
 addMainEventListener("click", "add-task", (addTaskElm) => {
     // This will create a text box inside of the new li.
     const id = addTaskElm.parentNode.id;
-    document.querySelector(`#${id} ul`).innerHTML += `<li class=""><i class="material-symbols-outlined">radio_button_unchecked</i><input id="new-li-input" type="text"></li>`;
+    document.querySelector(`#${id} ul`).innerHTML += HTML.buildLiElm(`<input id="new-li-input" type="text">`, false);
     const newLiInput = document.querySelector("#new-li-input");
 
     // This immediately focuses newLiInput, and it makes it so pressing enter blurs it.
     // Note that by default any input element is also blurred when the user clicks anything other than it.
     newLiInput.focus();
-    newLiInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") { newLiInput.blur(); }
-    });
+    newLiInput.addEventListener("keydown", (event) => { if (event.key === "Enter") { newLiInput.blur(); } });
 
     // This makes it so once newLiInput is blurred, it is replaced with newLiInput.value
     newLiInput.addEventListener("blur", () => {
@@ -42,16 +40,15 @@ addMainEventListener("click", "add-task", (addTaskElm) => {
         // This ensures that HTML cannot entered into newTask.
         newTask = newTask.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         
-        const newLi = newLiInput.parentNode;
+        const newLiElm = newLiInput.parentNode.parentNode;
 
         if (newTask) {
-            // newLi.innerHTML = newTask;
-            updateLi(newLi, newTask);
-            listOfLists.getListByHTMLId(newLi.parentNode.parentNode.id).push(newTask);
+            newLiElm.innerHTML = HTML.buildLiElm(newTask, newLiElm.classList.contains("complete"), true);
+            listOfLists.getListByHTMLId(newLiElm.parentNode.parentNode.id).push(newTask);
 
             listOfLists.updateLocalStorage();
         }
-        else { newLi.remove(); }
+        else { newLiElm.remove(); }
     });
 });
 
