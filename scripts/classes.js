@@ -76,7 +76,7 @@ export class List {
         let ulElm = "";
         this.tasks.forEach((task) => {
             ulElm += `
-                <li class="${(task.complete)? "completed": ""}">
+                <li class="${(task.complete)? "complete": ""}">
                     <i class="material-symbols-outlined">${(task.complete)? "check_circle": "radio_button_unchecked"}</i>
                     <span>${task.name}</span>
                 </li> `;
@@ -111,17 +111,17 @@ const example = `[
     {
         "name": "Homework",
         "order": null,
-        "tasks": [{"name": "a", "completed": false}, {"name": "b", "completed": false}, {"name": "c", "completed": false}]
+        "tasks": [{"name": "a", "complete": false}, {"name": "b", "complete": false}, {"name": "c", "complete": false}]
     },
     {
         "name": "Another_List",
         "order": null,
-        "tasks": [{"name": "1", "completed": false}, {"name": "2.817", "completed": false}, {"name": "3.14", "completed": false}, {"name": "5", "completed": false}]
+        "tasks": [{"name": "1", "complete": false}, {"name": "2.817", "complete": false}, {"name": "3.14", "complete": false}, {"name": "5", "complete": false}]
     },
     {
         "name": "Web_Dev",
         "order": null,
-        "tasks": [{"name": "All of the work!", "completed": false}]
+        "tasks": [{"name": "All of the work!", "complete": false}]
     }
 ]`;
 

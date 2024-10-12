@@ -9,7 +9,7 @@ const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
 // This takes the data from listOfLists variable, writes it as HTML, and puts it into the <main> element.
 mainElm.innerHTML = listOfLists.toHTML();
 
-// ///////// I might need to edit the selector and turn it into an object.
+// This defines a function to easily create event listeners that get delegated to mainElm.
 const addMainEventListener = (eventType, targetSelector, callbackFn) => {
     mainElm.addEventListener(eventType, (event) => {
         const targetElm = event.target;
@@ -18,15 +18,10 @@ const addMainEventListener = (eventType, targetSelector, callbackFn) => {
 }
 
 const updateLi = (liElm, content) => {
-    liElm.innerHTML = `<i class="material-symbols-outlined">${(liElm.className === "completed")? "check_circle": "radio_button_unchecked"}</i> <span>${content}</span>`;
+    liElm.innerHTML = `<i class="material-symbols-outlined">${(liElm.className === "complete")? "check_circle": "radio_button_unchecked"}</i> <span>${content}</span>`;
 }
 
 // It will make it so the user can add extra tasks to any to-do list.
-// mainElm.addEventListener("click", (event) => {
-//     if (event.target.className === "add-task") {
-        
-//     }
-// });
 addMainEventListener("click", "add-task", (addTaskElm) => {
     // This will create a text box inside of the new li.
     const id = addTaskElm.parentNode.id;
@@ -49,8 +44,6 @@ addMainEventListener("click", "add-task", (addTaskElm) => {
         const newLi = newLiInput.parentNode;
 
         if (newTask) {
-            console.log("newLi.childNodes:", newLi.childNodes[1]);
-            console.log("newLi.children:", newLi.children[1]);
             // newLi.innerHTML = newTask;
             updateLi(newLi, newTask);
             listOfLists.getListByHTMLId(newLi.parentNode.parentNode.id).push(newTask);
@@ -61,8 +54,20 @@ addMainEventListener("click", "add-task", (addTaskElm) => {
     });
 });
 
-// 
-// mainElm.addEventListener(click)
+// This makes it so the user can mark a task as complete or incomplete.
+addMainEventListener("click", "material-symbols-outlined", (iconElm) => {
+    const liElm = iconElm.parentNode;
+
+    if (!liElm.classList.contains("complete")) {
+        iconElm.innerHTML = "X"; // check_circle
+        liElm.classList.add("complete");
+    }
+    else {
+        iconElm.innerHTML = "radio_button_unchecked";
+        liElm.classList.remove("complete");
+    }
+});
+
 
 //
 const hoverEventListener = (targetElm, selectorType, enterFn, leaveFn) => {
@@ -87,11 +92,7 @@ const hoverEventListener = (targetElm, selectorType, enterFn, leaveFn) => {
     bodyElm.addEventListener("mouseleave", (event) => { if (event.target[selectorProp] === targetElm) { leaveFn(event.target); } }, true);
 }
 // hoverEventListener("li", "tag", (elm) => {
-//     elm.classList.add("completed");
+//     elm.classList.add("complete");
 // }, (elm) => {
-//     elm.classList.remove("completed");
+//     elm.classList.remove("complete");
 // });
-
-const markAsComplete = (elm) => {
-
-}
