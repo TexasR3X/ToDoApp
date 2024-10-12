@@ -1,5 +1,6 @@
 // ============================== main.js stores the bulk of the code for the ToDoApp ============================== //
-import { ListOfLists, List, Task } from "./classes.js";
+import { ListOfLists } from "./classes.js";
+import * as HTML from "./html.js";
 
 const bodyElm = document.querySelector("body");
 const mainElm = document.querySelector("main");

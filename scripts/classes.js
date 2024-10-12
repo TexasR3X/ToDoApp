@@ -1,4 +1,5 @@
-// ============================== classes.js is stores all of the classes in main.js ============================== //
+// ============================== classes.js stores all of the classes for list storage ============================== //
+import * as HTML from "./html.js";
 
 // Local Storage Structure:
 // [
@@ -36,16 +37,7 @@ export class ListOfLists {
         this.length = lists.length;
     }
 
-    toHTML() {
-        let output = "";
-        for (let list of Object.values(this.lists)) { output += ` ${list.toHTML()} `; }
-        return output += `
-            <div class="add-new-list">
-                <h2>Create New List</h2>
-                +
-            </div>
-        `;
-    }
+    toHTML() { return HTML.buildMainElm(this.lists); }
     getListByName(name) { for (let listName in this.lists) { if (listName === name) { return this.lists[listName]; } } }
     getListByHTMLId(id) { return this.getListByName(id.slice(10)); }
     updateLocalStorage() {
@@ -75,20 +67,10 @@ export class List {
     toHTML() {
         let ulElm = "";
         this.tasks.forEach((task) => {
-            ulElm += `
-                <li class="${(task.complete)? "complete": ""}">
-                    <i class="material-symbols-outlined">${(task.complete)? "check_circle": "radio_button_unchecked"}</i>
-                    <span>${task.name}</span>
-                </li> `;
+            ulElm += HTML.buildLiElm(task.name, task.complete);
         });
 
-        return `
-            <div id="list-name-${this.name}" class="list-container">
-                <h2>${this.name.replaceAll("_", " ")}</h2>
-                <ul>${ulElm}</ul>
-                <button class="add-task">Add Task</button>
-            </div>
-        `;
+        return HTML.buildListContainer(this.name, ulElm);
     }
     toString() { return `{ "name": "${this.name}", "order": null, "tasks": ${JSON.stringify(this.tasks)} }`; }
     push(taskName) { this.tasks.push(new Task(taskName)); }
