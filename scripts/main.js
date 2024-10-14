@@ -61,14 +61,14 @@ addMainEventListener("click", "complete-button", (buttonElm) => {
 
     console.log()
     if (liElm.classList.contains("incomplete")) {
-        buttonElm.innerHTML = "&check;";
+        buttonElm.innerHTML = HTML.completeIcon;
         liElm.classList.add("complete");
         liElm.classList.remove("incomplete");
 
         listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).tasks[HTML.getLiIndex(liElm)].setToComplete();
     }
     else {
-        buttonElm.innerHTML = "";
+        buttonElm.innerHTML = HTML.incompleteIcon;
         liElm.classList.add("incomplete");
         liElm.classList.remove("complete");
 
