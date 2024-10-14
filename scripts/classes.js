@@ -66,9 +66,7 @@ export class List {
     }
     toHTML() {
         let ulElm = "";
-        this.tasks.forEach((task) => {
-            ulElm += HTML.buildLiElm(task.name, task.complete);
-        });
+        this.tasks.forEach((task, i) => { ulElm += HTML.buildLiElm(task.name, task.complete, i); });
 
         return HTML.buildListContainer(this.name, ulElm);
     }

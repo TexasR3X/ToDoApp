@@ -21,15 +21,13 @@ export const buildListContainer = (listName, ulContent) => {
     `;
 }
 
-export const buildLiElm = (taskContent, isComplete, insideOnly = false) => {
-    if (insideOnly) { return ` <button>${(isComplete)? "&check;": ""}</button> <span>${taskContent}</span> `; }
+export const buildLiElm = (taskContent, isComplete, indexInList) => {
+    const insideLiHTML = ` <button class="complete-button">${(isComplete)? "&check;": ""}</button> <span class="task-content">${taskContent}</span> `;
+
+    // If the index is unspecified or set to null, then only the content of the li will be returned.
+    if (indexInList === null) { return insideLiHTML; }
     else {
-        return `
-            <li class="${(isComplete)? "complete": "incomplete"}">
-                <button>${(isComplete)? "&check;": ""}</button>
-                <span>${taskContent}</span>
-            </li>
-        `;
+        return `<li class="${(isComplete)? "complete": "incomplete"} index-${indexInList}"> ${insideLiHTML} </li>`;
     }
 }
 
