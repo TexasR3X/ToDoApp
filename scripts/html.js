@@ -31,6 +31,16 @@ export const buildLiElm = (taskContent, isComplete, indexInList) => {
     }
 }
 
+export const getLiIndex = (liElm) => {
+    liElm.classList;
+    for (let liClass of liElm.classList) {
+        console.log("liClass:", liClass);
+        if (liClass.includes("index")) { return liClass.slice(6); }
+    }
+    console.error("Li index not found.");
+    return null;
+}
+
 
 // `<li class="${(isComplete)? "complete": "incomplete"}">
 //     <i class="material-symbols-outlined">${(task.complete)? "check_circle": "radio_button_unchecked"}</i>

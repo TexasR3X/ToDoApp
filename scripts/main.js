@@ -10,16 +10,15 @@ const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
 // This takes the data from listOfLists variable, writes it as HTML, and puts it into the <main> element.
 mainElm.innerHTML = listOfLists.toHTML();
 
+console.log("listOfLists:", listOfLists);
+
+
 // This defines a function to easily create event listeners that get delegated to mainElm.
 const addMainEventListener = (eventType, targetSelector, callbackFn) => {
     mainElm.addEventListener(eventType, (event) => {
         const targetElm = event.target;
         if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm); }
     });
-}
-
-const updateLi = (liElm, content) => {
-    liElm.innerHTML = `<i class="material-symbols-outlined">${(liElm.className === "complete")? "check_circle": "radio_button_unchecked"}</i> <span>${content}</span>`;
 }
 
 // It will make it so the user can add extra tasks to any to-do list.
@@ -66,13 +65,17 @@ addMainEventListener("click", "complete-button", (buttonElm) => {
         liElm.classList.add("complete");
         liElm.classList.remove("incomplete");
 
-        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id)
+        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).tasks[HTML.getLiIndex(liElm)].setToComplete();
     }
     else {
         buttonElm.innerHTML = "";
         liElm.classList.add("incomplete");
         liElm.classList.remove("complete");
+
+        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).tasks[HTML.getLiIndex(liElm)].setToIncomplete();
     }
+
+    listOfLists.updateLocalStorage();
 });
 
 

@@ -29,10 +29,18 @@ import * as HTML from "./html.js";
         // This will equal the number of lists in this.lists
 export class ListOfLists {
     constructor(lists) {
-        if (typeof lists) { lists = JSON.parse(lists); }
+        lists = JSON.parse(lists);
 
         this.lists = {};
-        for (let list of lists) { this.lists[list.name] = new List(list.name, list.tasks); }
+        // This turns each list in lists into a List object.
+        for (let list of lists) {
+            // This turns each task in list.tasks into a Task object.
+            for (let i = 0; i < list.tasks.length; i++) {
+                list.tasks[i] = new Task(list.tasks[i].name, list.tasks[i].complete)
+            }
+
+            this.lists[list.name] = new List(list.name, list.tasks);
+        }
 
         this.length = lists.length;
     }
@@ -80,7 +88,6 @@ export class Task {
         this.complete = complete;
     }
 
-    // I might not need these methods.
     setToComplete() { this.complete = true; }
     setToIncomplete() { this.complete = false; }
 }
