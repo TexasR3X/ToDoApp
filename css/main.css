@@ -17,8 +17,22 @@ body {
 }
 .list-container ul, .add-new-list ul {
   padding-left: 1.5rem;
+  margin-left: -1.5rem;
 }
-.list-container ul li input, .add-new-list ul li input {
+
+li {
+  margin: 0.4rem 0;
+  display: flex;
+  align-items: center;
+}
+li span {
+  flex-grow: 1;
+}
+li .delete-button {
+  opacity: 0;
+  transition: opacity 0.1s linear;
+}
+li input {
   border: 0;
   border-radius: 5rem;
   padding: 0.2rem 0.5rem;
@@ -30,6 +44,10 @@ button {
   border-radius: 5rem;
   padding: 0.2rem 0.5rem;
   background: #caf4ff;
+  cursor: pointer;
+}
+
+svg {
   cursor: pointer;
 }
 

@@ -26,10 +26,11 @@ export const incompleteIcon = `<path d="M480-80q-83 0-156-31.5T197-197q-54-54-85
 
 export const buildLiElm = (taskContent, isComplete, indexInList) => {
     const insideLiHTML = `
-        <svg class="complete-button" role="button" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000">
+        <svg role="button" class="complete-button" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000">
             ${(isComplete)? completeIcon: incompleteIcon}
         </svg>
         <span class="task-content">${taskContent}</span>
+        <svg role="button" class="delete-button   icon icon-tabler icons-tabler-outline icon-tabler-trash" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round" ><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
     `;
 
     // If the index is unspecified or set to null, then only the content of the li will be returned.

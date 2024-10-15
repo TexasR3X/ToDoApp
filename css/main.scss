@@ -32,11 +32,23 @@ body { background: colors.$primary-1; }
 
     ul {
         padding-left: 1.5rem;
+        margin-left: -1.5rem;        
+    }
+}
+li {
+    margin: 0.4rem 0;
+    display: flex;
+    align-items: center;
+    
+    span { flex-grow: 1; }
+    .delete-button {
+        opacity: 0;
+        transition: opacity 0.1s linear;
+    }
 
-        li input {
-            @include round-border;
-            background: colors.$primary-3;
-        }
+    input {
+        @include round-border;
+        background: colors.$primary-3;
     }
 }
 
@@ -45,5 +57,6 @@ button {
     background: colors.$primary-1;
     cursor: pointer;
 }
+svg, { cursor: pointer; }
 
 .completed { background: #0f0; }

@@ -13,16 +13,21 @@ mainElm.innerHTML = listOfLists.toHTML();
 console.log("listOfLists:", listOfLists);
 
 
-// This defines a function to easily create event listeners that get delegated to mainElm.
-const addMainEventListener = (eventType, targetSelector, callbackFn) => {
-    mainElm.addEventListener(eventType, (event) => {
+// This defines a function to easily create event listeners that get delegated to bodyElm.
+const addBodyEventListener = (eventType, targetSelector, callbackFn) => {
+    bodyElm.addEventListener(eventType, (event) => {
         const targetElm = event.target;
         if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm); }
-    });
+    }, true);
+}
+// This defines a function to easily create hovering event listeners.
+const hoverEventListener = (targetSelector, enterFn, leaveFn) => {
+    addBodyEventListener("mouseenter", targetSelector, (targetElm) => enterFn(targetElm));
+    addBodyEventListener("mouseleave", targetSelector, (targetElm) => leaveFn(targetElm));
 }
 
 // It will make it so the user can add extra tasks to any to-do list.
-addMainEventListener("click", "add-task", (addTaskElm) => {
+addBodyEventListener("click", "add-task", (addTaskElm) => {
     const id = addTaskElm.parentNode.id;
 
     // This will create a text box inside of the new li.
@@ -56,7 +61,7 @@ addMainEventListener("click", "add-task", (addTaskElm) => {
 });
 
 // This makes it so the user can mark a task as complete or incomplete.
-addMainEventListener("click", "complete-button", (buttonElm) => {
+addBodyEventListener("click", "complete-button", (buttonElm) => {
     const liElm = buttonElm.parentNode;
 
     console.log()
@@ -78,32 +83,19 @@ addMainEventListener("click", "complete-button", (buttonElm) => {
     listOfLists.updateLocalStorage();
 });
 
+// This event listener makes it so the user can delete a task.
+hoverEventListener("LI", (targetElm) => {
+    targetElm.children[2].style.opacity = "1";
 
-/*
-const hoverEventListener = (targetElm, selectorType, enterFn, leaveFn) => {
-    let selectorProp = null;
-    switch (selectorType.toLowerCase()) {
-        case "id":
-            selectorProp = "id";
-            break;
-        case "class":
-            selectorProp = "className";
-            break;
-        case "tag":
-            selectorProp = "tagName";
-            targetElm = targetElm.toUpperCase();
-            break;
-        default:
-            console.error("Error: Invalid selectorType");
-            break;
-    }
-    
-    bodyElm.addEventListener("mouseenter", (event) => { if (event.target[selectorProp] === targetElm) { enterFn(event.target); } }, true);
-    bodyElm.addEventListener("mouseleave", (event) => { if (event.target[selectorProp] === targetElm) { leaveFn(event.target); } }, true);
-}
+
+}, (targetElm) => {
+    targetElm.children[2].style.opacity = "0";
+});
+
+
+
 // hoverEventListener("li", "tag", (elm) => {
 //     elm.classList.add("complete");
 // }, (elm) => {
 //     elm.classList.remove("complete");
 // });
-*/
