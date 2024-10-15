@@ -61,8 +61,9 @@ export class ListOfLists {
 
 export class List {
     constructor(name, tasks) {
-        this.name = name;
-        this.tasks = tasks;
+        this.name = name; // String
+        this.tasks = tasks; // Array (with Task elements)
+        this.length = this.tasks.length; // Number
     }
 
     // This method is never used and maybe should be deleted.
@@ -74,12 +75,13 @@ export class List {
     }
     toHTML() {
         let ulElm = "";
-        this.tasks.forEach((task, i) => { ulElm += HTML.buildLiElm(task.name, task.complete, i); });
+        this.tasks.forEach((task, i) => { ulElm += HTML.buildLiElm(task.name, task.complete, false); });
 
         return HTML.buildListContainer(this.name, ulElm);
     }
     toString() { return `{ "name": "${this.name}", "order": null, "tasks": ${JSON.stringify(this.tasks)} }`; }
     push(taskName) { this.tasks.push(new Task(taskName)); }
+    removeAtIndex(index) { this.tasks.splice(index, 1); }
 }
 
 export class Task {

@@ -1,6 +1,7 @@
 // ============================== main.js stores the bulk of the code for the ToDoApp ============================== //
 import { ListOfLists } from "./classes.js";
 import * as HTML from "./html.js";
+HTML.updateHTMLElementClass();
 
 const bodyElm = document.querySelector("body");
 const mainElm = document.querySelector("main");
@@ -31,13 +32,13 @@ addBodyEventListener("click", "add-task", (addTaskElm) => {
     const id = addTaskElm.parentNode.id;
 
     // This will create a text box inside of the new li.
-    document.querySelector(`#${id} ul`).innerHTML += HTML.buildLiElm(`<input id="new-li-input" type="text">`, false, "blank");
+    document.querySelector(`#${id} ul`).innerHTML += HTML.buildLiElm(`<input id="new-li-input" type="text">`, false, false);
     const newLiInputElm = document.querySelector("#new-li-input");
     const newLiElm = newLiInputElm.parentNode.parentNode;
 
-    // This will remove newLiInputElm's .index-blank class and replace it with the blank with whatever the li's index is amongst its children.
-    newLiElm.classList.remove("index-blank");
-    newLiElm.classList.add(`index-${newLiElm.parentNode.children.length - 1}`);
+    // // This will remove newLiInputElm's .index-blank class and replace it with the blank with whatever the li's index is amongst its children.
+    // newLiElm.classList.remove("index-blank");
+    // newLiElm.classList.add(`index-${newLiElm.parentNode.children.length - 1}`);
 
     // This immediately focuses newLiInputElm, and it makes it so pressing enter blurs it.
     // Note that by default any input element is also blurred when the user clicks anything other than it.
@@ -51,7 +52,7 @@ addBodyEventListener("click", "add-task", (addTaskElm) => {
         newTask = newTask.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
         if (newTask) {
-            newLiElm.innerHTML = HTML.buildLiElm(newTask, newLiElm.classList.contains("complete"), null);
+            newLiElm.innerHTML = HTML.buildLiElm(newTask, newLiElm.classList.contains("complete"), true);
             listOfLists.getListByHTMLId(newLiElm.parentNode.parentNode.id).push(newTask);
 
             listOfLists.updateLocalStorage();
@@ -70,32 +71,27 @@ addBodyEventListener("click", "complete-button", (buttonElm) => {
         liElm.classList.add("complete");
         liElm.classList.remove("incomplete");
 
-        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).tasks[HTML.getLiIndex(liElm)].setToComplete();
+        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).tasks[liElm.siblingIndex()].setToComplete();
     }
     else {
         buttonElm.innerHTML = HTML.incompleteIcon;
         liElm.classList.add("incomplete");
         liElm.classList.remove("complete");
 
-        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).tasks[HTML.getLiIndex(liElm)].setToIncomplete();
+        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).tasks[liElm.siblingIndex()].setToIncomplete();
     }
 
     listOfLists.updateLocalStorage();
 });
 
-// This event listener makes it so the user can delete a task.
-hoverEventListener("LI", (targetElm) => {
-    targetElm.children[2].style.opacity = "1";
+// This event listener makes it so the delete-button is shown when the user hovers over its li parent.
+hoverEventListener("LI", (targetElm) => { targetElm.children[2].style.opacity = "1"; }, (targetElm) => { targetElm.children[2].style.opacity = "0"; });
 
+addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
+    const liElm = deleteButtonElm.parentNode;
+    
+    listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).removeAtIndex(liElm.siblingIndex());
+    listOfLists.updateLocalStorage();
 
-}, (targetElm) => {
-    targetElm.children[2].style.opacity = "0";
+    liElm.remove();
 });
-
-
-
-// hoverEventListener("li", "tag", (elm) => {
-//     elm.classList.add("complete");
-// }, (elm) => {
-//     elm.classList.remove("complete");
-// });
