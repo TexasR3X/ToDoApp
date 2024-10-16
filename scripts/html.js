@@ -51,6 +51,4 @@ export const prototypeAdditions = {
     }
 }
 
-export const updateHTMLElementClass = () => {
-    for (let proto in prototypeAdditions) { HTMLElement.prototype[proto] = prototypeAdditions[proto]; }
-}
+export const updateHTMLElementClass = () => { for (let proto in prototypeAdditions) { HTMLElement.prototype[proto] = prototypeAdditions[proto]; } }

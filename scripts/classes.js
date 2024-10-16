@@ -82,6 +82,8 @@ export class List {
     toString() { return `{ "name": "${this.name}", "order": null, "tasks": ${JSON.stringify(this.tasks)} }`; }
     push(taskName) { this.tasks.push(new Task(taskName)); }
     removeAtIndex(index) { this.tasks.splice(index, 1); }
+    setTaskToComplete(taskIndex) { this.tasks[taskIndex].complete = true; }
+    setTaskToIncomplete(taskIndex) { this.tasks[taskIndex].complete = false; }
 }
 
 export class Task {
@@ -89,9 +91,6 @@ export class Task {
         this.name = name;
         this.complete = complete;
     }
-
-    setToComplete() { this.complete = true; }
-    setToIncomplete() { this.complete = false; }
 }
 
 
