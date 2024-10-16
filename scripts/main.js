@@ -27,6 +27,41 @@ const hoverEventListener = (targetSelector, enterFn, leaveFn) => {
     addBodyEventListener("mouseleave", targetSelector, (targetElm) => leaveFn(targetElm));
 }
 
+//
+const useTempInput = (changingElm, reassignmentType) => {
+    const originalContent = changingElm.innerHTML;
+    changingElm.innerHTML = `<input id="temp-input" type="text" value="${changingElm.innerHTML}">`;
+    const inputElm = changingElm.children[0];
+    
+    inputElm.focus();
+    inputElm.addEventListener("keydown", (event) => { if (event.key === "Enter") { inputElm.blur(); } });
+
+    inputElm.addEventListener("blur", () => {
+        let updatedContent = inputElm.value;
+
+        // This ensures that HTML cannot be entered into updatedContent.
+        updatedContent = updatedContent.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+        changingElm.innerHTML = updatedContent;
+        if (updatedContent === originalContent) { return; }
+
+        if (reassignmentType === "task") {
+            const liElm = changingElm.parentNode;
+
+            if (!!updatedContent) {
+                if (listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm) !== undefined) { listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm).name = updatedContent; }
+                else { listOfLists.getListByHTMLElm(liElm).push(updatedContent); }
+            }
+            else {
+                listOfLists.getListByHTMLElm(liElm).removeTaskByLiElm(liElm);
+                liElm.remove();
+            }
+        }
+        
+        listOfLists.updateLocalStorage();
+    });
+}
+
 // It will make it so the user can add extra tasks to any to-do list.
 addBodyEventListener("click", "add-task", (addTaskElm) => {
     const id = addTaskElm.parentNode.id;
@@ -48,7 +83,7 @@ addBodyEventListener("click", "add-task", (addTaskElm) => {
     // This makes it so once newLiInputElm is blurred, it is replaced with newLiInputElm.value
     newLiInputElm.addEventListener("blur", () => {
         let newTask = newLiInputElm.value;
-        // This ensures that HTML cannot entered into newTask.
+        // This ensures that HTML cannot be entered into newTask.
         newTask = newTask.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
         if (newTask) {
@@ -65,7 +100,6 @@ addBodyEventListener("click", "add-task", (addTaskElm) => {
 addBodyEventListener("click", "complete-button", (buttonElm) => {
     const liElm = buttonElm.parentNode;
 
-    console.log()
     if (liElm.classList.contains("incomplete")) {
         buttonElm.innerHTML = HTML.completeIcon;
         liElm.classList.add("complete");
@@ -90,8 +124,12 @@ hoverEventListener("LI", (targetElm) => { targetElm.children[2].style.opacity = 
 addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
     const liElm = deleteButtonElm.parentNode;
     
-    listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).removeAtIndex(liElm.siblingIndex());
+    listOfLists.getListByHTMLElm(liElm).removeTaskByLiElm(liElm);
     listOfLists.updateLocalStorage();
 
     liElm.remove();
+});
+
+addBodyEventListener("dblclick", "task-content", (taskContentElm) => {
+    useTempInput(taskContentElm, "task");
 });

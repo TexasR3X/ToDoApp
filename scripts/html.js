@@ -48,6 +48,10 @@ export const prototypeAdditions = {
         
         console.error("Sibling index not found.");
         return null;
+    },
+    findListContainerAncestor: function () {
+        if (this.classList.contains("list-container")) { return this; }
+        else { return this.parentNode.findListContainerAncestor(); }
     }
 }
 

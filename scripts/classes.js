@@ -48,6 +48,7 @@ export class ListOfLists {
     toHTML() { return HTML.buildMainElm(this.lists); }
     getListByName(name) { for (let listName in this.lists) { if (listName === name) { return this.lists[listName]; } } }
     getListByHTMLId(id) { return this.getListByName(id.slice(10)); }
+    getListByHTMLElm(elm) { return this.lists[elm.findListContainerAncestor().id.slice(10)]; }
     updateLocalStorage() {
         let jsonString = "[";
         for (let list of Object.values(this.lists)) { jsonString += ` ${list.toString()},`; }
@@ -81,9 +82,12 @@ export class List {
     }
     toString() { return `{ "name": "${this.name}", "order": null, "tasks": ${JSON.stringify(this.tasks)} }`; }
     push(taskName) { this.tasks.push(new Task(taskName)); }
+    // I should perhaps delete this (after updating the code).
     removeAtIndex(index) { this.tasks.splice(index, 1); }
     setTaskToComplete(taskIndex) { this.tasks[taskIndex].complete = true; }
     setTaskToIncomplete(taskIndex) { this.tasks[taskIndex].complete = false; }
+    getTaskByLiElm(liElm) { return this.tasks[liElm.siblingIndex()]; }
+    removeTaskByLiElm(liElm) { this.tasks.splice(liElm.siblingIndex(), 1); }
 }
 
 export class Task {
