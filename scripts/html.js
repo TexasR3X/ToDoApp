@@ -53,13 +53,7 @@ export const prototypeAdditions = {
         else { return this.parentNode.findListContainerAncestor(); }
     },
     liGetContent: function () { return this.children[1].innerHTML; },
-    liGetComplete: function () {
-        console.log("this:", this);
-        console.log("this.liGetContent():", this.liGetContent());
-        console.log("this.classList:", this.classList);
-        console.log(`this.classList.contains("complete"):`, this.classList.contains("complete"));
-        return this.classList.contains("complete");
-    },
+    liGetComplete: function () { return this.classList.contains("complete"); },
     liToggleComplete: function () {
         if (this.liGetComplete()) {
             this.classList.add("incomplete");

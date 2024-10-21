@@ -7,7 +7,7 @@ const bodyElm = document.querySelector("body");
 const mainElm = document.querySelector("main");
 
 // When the page loads, this retrieves the data from local storage and puts it into listOfLists.
-const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
+export const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
 // This takes the data from listOfLists variable, writes it as HTML, and puts it into the <main> element.
 mainElm.innerHTML = listOfLists.toHTML();
 
@@ -15,20 +15,20 @@ console.log("listOfLists:", listOfLists);
 
 
 // This defines a function to easily create event listeners that get delegated to bodyElm.
-const addBodyEventListener = (eventType, targetSelector, callbackFn) => {
+export const addBodyEventListener = (eventType, targetSelector, callbackFn) => {
     bodyElm.addEventListener(eventType, (event) => {
         const targetElm = event.target;
         if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm, event); }
     }, true);
 }
-const removeBodyEventListener = (eventType, targetSelector, callbackFn) => {
+export const removeBodyEventListener = (eventType, targetSelector, callbackFn) => {
     bodyElm.removeEventListener(eventType, (event) => {
         const targetElm = event.target;
         if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm, event); }
     }, true);
 }
 // This defines a function to easily create hovering event listeners.
-const hoverEventListener = (targetSelector, enterFn, leaveFn) => {
+export const hoverEventListener = (targetSelector, enterFn, leaveFn) => {
     addBodyEventListener("mouseenter", targetSelector, (targetElm) => enterFn(targetElm));
     addBodyEventListener("mouseleave", targetSelector, (targetElm) => leaveFn(targetElm));
 }
@@ -51,7 +51,7 @@ const useTempInput = (changingElm, reassignmentType) => {
         changingElm.innerHTML = updatedContent;
 
         // If the updatedContent quals the originalContent, the code can stop right here.
-        if (updatedContent === originalContent) { return; }
+        if (updatedContent === originalContent && !!updatedContent) { return; }
 
         // The following if-else chain updates the data in local storage.
         // Depending on what is being changed (tasks or lists) it needs to be changed differently.
@@ -117,31 +117,3 @@ addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
 
 // This makes it so the user can edit tasks (task names).
 addBodyEventListener("dblclick", "task-content", (taskContentElm) => useTempInput(taskContentElm, "task"));
-
-//
-addBodyEventListener("dragstart", "LI", (draggingLiElm) => {
-    console.log("draggingLiElm:", draggingLiElm);
-
-    addBodyEventListener("dragover", "LI", (_liElm, event) => { event.preventDefault(); });
-
-    const dropFn = (dropzoneLiElm, event) => {
-        event.preventDefault();
-
-        // This will swap the HTML for each li element.
-        [draggingLiElm.innerHTML, dropzoneLiElm.innerHTML] = [dropzoneLiElm.innerHTML , draggingLiElm.innerHTML];
-        if (draggingLiElm.liGetComplete() !== dropzoneLiElm.liGetComplete()) {
-            draggingLiElm.liToggleComplete();
-            dropzoneLiElm.liToggleComplete();
-        }
-
-        //
-        listOfLists.getListByHTMLElm(draggingLiElm).getTaskByLiElm(draggingLiElm).changeTaskByLiElm(draggingLiElm);
-        console.log("=".repeat(25));
-        listOfLists.getListByHTMLElm(dropzoneLiElm).getTaskByLiElm(dropzoneLiElm).changeTaskByLiElm(dropzoneLiElm);
-
-        listOfLists.updateLocalStorage();
-
-        removeBodyEventListener("drop", "LI", (dropzoneLiElm, event) => dropFn(dropzoneLiElm, event));
-    }
-    addBodyEventListener("drop", "LI", (dropzoneLiElm, event) => dropFn(dropzoneLiElm, event));
-});

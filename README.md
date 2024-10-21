@@ -22,7 +22,7 @@ This app allows users to use, create, and modify multiple to-do lists.
     - <span class="file">main.js</span> is where most of the code is run to make the program interactive.
     - <span class="file">classes.js</span> is where the storage classes for the app are stored.
     - <span class="file">html.js</span> stores functions that help build, edit, or find data within HTML.
-    - <span class="file">dragAndDrog.js</span> is used to create drag and drop ability in the to-do lists.
+    - <span class="file">drag.js</span> is used to create drag and drop ability in the to-do lists.
 
 ## Storage
 - The to-do lists are stored and saved in local storage.

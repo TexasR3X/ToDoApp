@@ -84,12 +84,8 @@ export class Task {
     }
 
     changeTaskByLiElm(liElm) {
-        console.log("liElm:", liElm);
-        const newName = liElm.liGetContent();
-        const newComplete = liElm.liGetComplete();
-
-        (newName !== "")? this.name = newName: "do nothing placeholder";
-        (newComplete !== "")? this.complete = newComplete: "do nothing placeholder";
+        this.name = liElm.liGetContent();
+        this.complete = liElm.liGetComplete();
     }
 }
 
