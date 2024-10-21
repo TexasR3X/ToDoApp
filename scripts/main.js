@@ -18,7 +18,13 @@ console.log("listOfLists:", listOfLists);
 const addBodyEventListener = (eventType, targetSelector, callbackFn) => {
     bodyElm.addEventListener(eventType, (event) => {
         const targetElm = event.target;
-        if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm); }
+        if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm, event); }
+    }, true);
+}
+const removeBodyEventListener = (eventType, targetSelector, callbackFn) => {
+    bodyElm.removeEventListener(eventType, (event) => {
+        const targetElm = event.target;
+        if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm, event); }
     }, true);
 }
 // This defines a function to easily create hovering event listeners.
@@ -82,19 +88,15 @@ addBodyEventListener("click", "add-task", (addTaskElm) => {
 addBodyEventListener("click", "complete-button", (buttonElm) => {
     const liElm = buttonElm.parentNode;
 
+    liElm.liToggleComplete();
+
     if (liElm.classList.contains("incomplete")) {
         buttonElm.innerHTML = HTML.completeIcon;
-        liElm.classList.add("complete");
-        liElm.classList.remove("incomplete");
-
-        listOfLists.getListByHTMLElm(liElm.findListContainerAncestor()).getTaskByLiElm(liElm).complete = true;
+        listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm).complete = true;
     }
     else {
         buttonElm.innerHTML = HTML.incompleteIcon;
-        liElm.classList.add("incomplete");
-        liElm.classList.remove("complete");
-
-        listOfLists.getListByHTMLElm(liElm.findListContainerAncestor()).getTaskByLiElm(liElm).complete = false;
+        listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm).complete = false;
     }
 
     listOfLists.updateLocalStorage();
@@ -103,6 +105,7 @@ addBodyEventListener("click", "complete-button", (buttonElm) => {
 // This event listener makes it so the delete-button is shown when the user hovers over its li parent.
 hoverEventListener("LI", (targetElm) => { targetElm.children[2].style.opacity = "1"; }, (targetElm) => { targetElm.children[2].style.opacity = "0"; });
 
+// This makes it so the user can delete tasks.
 addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
     const liElm = deleteButtonElm.parentNode;
     
@@ -112,4 +115,33 @@ addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
     liElm.remove();
 });
 
+// This makes it so the user can edit tasks (task names).
 addBodyEventListener("dblclick", "task-content", (taskContentElm) => useTempInput(taskContentElm, "task"));
+
+//
+addBodyEventListener("dragstart", "LI", (draggingLiElm) => {
+    console.log("draggingLiElm:", draggingLiElm);
+
+    addBodyEventListener("dragover", "LI", (_liElm, event) => { event.preventDefault(); });
+
+    const dropFn = (dropzoneLiElm, event) => {
+        event.preventDefault();
+
+        // This will swap the HTML for each li element.
+        [draggingLiElm.innerHTML, dropzoneLiElm.innerHTML] = [dropzoneLiElm.innerHTML , draggingLiElm.innerHTML];
+        if (draggingLiElm.liGetComplete() !== dropzoneLiElm.liGetComplete()) {
+            draggingLiElm.liToggleComplete();
+            dropzoneLiElm.liToggleComplete();
+        }
+
+        //
+        listOfLists.getListByHTMLElm(draggingLiElm).getTaskByLiElm(draggingLiElm).changeTaskByLiElm(draggingLiElm);
+        console.log("=".repeat(25));
+        listOfLists.getListByHTMLElm(dropzoneLiElm).getTaskByLiElm(dropzoneLiElm).changeTaskByLiElm(dropzoneLiElm);
+
+        listOfLists.updateLocalStorage();
+
+        removeBodyEventListener("drop", "LI", (dropzoneLiElm, event) => dropFn(dropzoneLiElm, event));
+    }
+    addBodyEventListener("drop", "LI", (dropzoneLiElm, event) => dropFn(dropzoneLiElm, event));
+});

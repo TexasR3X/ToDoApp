@@ -35,9 +35,8 @@ export const buildLiElm = (taskContent, isComplete, insideOnly) => {
 
     // If the index is unspecified or set to null, then only the content of the li will be returned.
     if (insideOnly) { return insideLiHTML; }
-    else { return `<li class="${(isComplete)? "complete": "incomplete"}"> ${insideLiHTML} </li>`; }
+    else { return `<li class="${(isComplete)? "complete": "incomplete"}" draggable="true"> ${insideLiHTML} </li>`; }
 }
-//indexInList
 
 // This will return an element's index amongst its siblings.
 export const prototypeAdditions = {
@@ -52,7 +51,25 @@ export const prototypeAdditions = {
     findListContainerAncestor: function () {
         if (this.classList.contains("list-container")) { return this; }
         else { return this.parentNode.findListContainerAncestor(); }
-    }
+    },
+    liGetContent: function () { return this.children[1].innerHTML; },
+    liGetComplete: function () {
+        console.log("this:", this);
+        console.log("this.liGetContent():", this.liGetContent());
+        console.log("this.classList:", this.classList);
+        console.log(`this.classList.contains("complete"):`, this.classList.contains("complete"));
+        return this.classList.contains("complete");
+    },
+    liToggleComplete: function () {
+        if (this.liGetComplete()) {
+            this.classList.add("incomplete");
+            this.classList.remove("complete");
+        }
+        else {
+            this.classList.add("complete");
+            this.classList.remove("incomplete");
+        }
+    },
 }
 
 export const updateHTMLElementClass = () => { for (let proto in prototypeAdditions) { HTMLElement.prototype[proto] = prototypeAdditions[proto]; } }

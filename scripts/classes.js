@@ -64,7 +64,7 @@ export class List {
         this.tasks = tasks; // Array (with Task elements)
         this.length = this.tasks.length; // Number
     }
-    
+
     toHTML() {
         let ulElm = "";
         this.tasks.forEach((task, i) => { ulElm += HTML.buildLiElm(task.name, task.complete, false); });
@@ -81,6 +81,15 @@ export class Task {
     constructor(name, complete = false) {
         this.name = name;
         this.complete = complete;
+    }
+
+    changeTaskByLiElm(liElm) {
+        console.log("liElm:", liElm);
+        const newName = liElm.liGetContent();
+        const newComplete = liElm.liGetComplete();
+
+        (newName !== "")? this.name = newName: "do nothing placeholder";
+        (newComplete !== "")? this.complete = newComplete: "do nothing placeholder";
     }
 }
 
