@@ -87,14 +87,14 @@ addBodyEventListener("click", "complete-button", (buttonElm) => {
         liElm.classList.add("complete");
         liElm.classList.remove("incomplete");
 
-        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).setTaskToComplete(liElm.siblingIndex());
+        listOfLists.getListByHTMLElm(liElm.findListContainerAncestor()).getTaskByLiElm(liElm).complete = true;
     }
     else {
         buttonElm.innerHTML = HTML.incompleteIcon;
         liElm.classList.add("incomplete");
         liElm.classList.remove("complete");
 
-        listOfLists.getListByHTMLId(liElm.parentNode.parentNode.id).setTaskToIncomplete(liElm.siblingIndex());
+        listOfLists.getListByHTMLElm(liElm.findListContainerAncestor()).getTaskByLiElm(liElm).complete = false;
     }
 
     listOfLists.updateLocalStorage();
