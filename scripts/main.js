@@ -27,7 +27,7 @@ const hoverEventListener = (targetSelector, enterFn, leaveFn) => {
     addBodyEventListener("mouseleave", targetSelector, (targetElm) => leaveFn(targetElm));
 }
 
-//
+// This will create a temporary input element that allows you to edite new or existing task or list names.
 const useTempInput = (changingElm, reassignmentType) => {
     const originalContent = changingElm.innerHTML;
     changingElm.innerHTML = `<input id="temp-input" type="text" value="${changingElm.innerHTML}">`;
@@ -41,10 +41,14 @@ const useTempInput = (changingElm, reassignmentType) => {
 
         // This ensures that HTML cannot be entered into updatedContent.
         updatedContent = updatedContent.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-
+        // This upodates the content in changingElm.
         changingElm.innerHTML = updatedContent;
+
+        // If the updatedContent quals the originalContent, the code can stop right here.
         if (updatedContent === originalContent) { return; }
 
+        // The following if-else chain updates the data in local storage.
+        // Depending on what is being changed (tasks or lists) it needs to be changed differently.
         if (reassignmentType === "task") {
             const liElm = changingElm.parentNode;
 
@@ -65,35 +69,13 @@ const useTempInput = (changingElm, reassignmentType) => {
 // It will make it so the user can add extra tasks to any to-do list.
 addBodyEventListener("click", "add-task", (addTaskElm) => {
     const id = addTaskElm.parentNode.id;
+    const ulElm = document.querySelector(`#${id} ul`)
 
-    // This will create a text box inside of the new li.
-    document.querySelector(`#${id} ul`).innerHTML += HTML.buildLiElm(`<input id="new-li-input" type="text">`, false, false);
-    const newLiInputElm = document.querySelector("#new-li-input");
-    const newLiElm = newLiInputElm.parentNode.parentNode;
+    // This will create a new li element for the new task.
+    ulElm.innerHTML += HTML.buildLiElm("", false, false);
 
-    // // This will remove newLiInputElm's .index-blank class and replace it with the blank with whatever the li's index is amongst its children.
-    // newLiElm.classList.remove("index-blank");
-    // newLiElm.classList.add(`index-${newLiElm.parentNode.children.length - 1}`);
-
-    // This immediately focuses newLiInputElm, and it makes it so pressing enter blurs it.
-    // Note that by default any input element is also blurred when the user clicks anything other than it.
-    newLiInputElm.focus();
-    newLiInputElm.addEventListener("keydown", (event) => { if (event.key === "Enter") { newLiInputElm.blur(); } });
-
-    // This makes it so once newLiInputElm is blurred, it is replaced with newLiInputElm.value
-    newLiInputElm.addEventListener("blur", () => {
-        let newTask = newLiInputElm.value;
-        // This ensures that HTML cannot be entered into newTask.
-        newTask = newTask.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-
-        if (newTask) {
-            newLiElm.innerHTML = HTML.buildLiElm(newTask, newLiElm.classList.contains("complete"), true);
-            listOfLists.getListByHTMLId(newLiElm.parentNode.parentNode.id).push(newTask);
-
-            listOfLists.updateLocalStorage();
-        }
-        else { newLiElm.remove(); }
-    });
+    // This will create a temporary input element inside of the newe li.
+    useTempInput(ulElm.children[ulElm.children.length - 1].children[1], "task");
 });
 
 // This makes it so the user can mark a task as complete or incomplete.
@@ -130,6 +112,4 @@ addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
     liElm.remove();
 });
 
-addBodyEventListener("dblclick", "task-content", (taskContentElm) => {
-    useTempInput(taskContentElm, "task");
-});
+addBodyEventListener("dblclick", "task-content", (taskContentElm) => useTempInput(taskContentElm, "task"));

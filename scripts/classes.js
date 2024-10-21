@@ -82,7 +82,7 @@ export class List {
     }
     toString() { return `{ "name": "${this.name}", "order": null, "tasks": ${JSON.stringify(this.tasks)} }`; }
     push(taskName) { this.tasks.push(new Task(taskName)); }
-    // I should perhaps delete this (after updating the code).
+    // I should perhaps delete removeAtIndex() after updating the code.
     removeAtIndex(index) { this.tasks.splice(index, 1); }
     setTaskToComplete(taskIndex) { this.tasks[taskIndex].complete = true; }
     setTaskToIncomplete(taskIndex) { this.tasks[taskIndex].complete = false; }
