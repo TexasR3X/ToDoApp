@@ -67,6 +67,10 @@ const useTempInput = (changingElm, reassignmentType) => {
                 liElm.remove();
             }
         }
+        else if (reassignmentType === "list") {
+            if (!!updatedContent) listOfLists.getListByHTMLElm(changingElm).name = updatedContent.replaceAll(" ", "_");
+            else changingElm.innerHTML = originalContent;
+        }
         
         listOfLists.updateLocalStorage();
     });
@@ -117,6 +121,8 @@ addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
 
 // This makes it so the user can edit tasks (task names).
 addBodyEventListener("dblclick", "task-content", (taskContentElm) => useTempInput(taskContentElm, "task"));
+// This makes it so the user can edit list names.
+addBodyEventListener("dblclick", "list-heading", (listElm) => useTempInput(listElm, "list"));
 
 //
 document.querySelector("#add-list").addEventListener("click", (addListElm) => {

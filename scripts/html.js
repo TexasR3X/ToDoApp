@@ -20,7 +20,7 @@ export const buildAddListContainer = () => {
 export const buildListContainer = (listName, ulContent) => {
     return `
         <div id="list-name-${listName}" class="list-container">
-            <h2>${listName.replaceAll("_", " ")}</h2>
+            <h2 class="list-heading">${listName.replaceAll("_", " ")}</h2>
             <ul>${ulContent}</ul>
             <button class="add-task">Add Task</button>
         </div>
