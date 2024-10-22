@@ -123,6 +123,8 @@ document.querySelector("#add-list").addEventListener("click", (addListElm) => {
     console.log("addListElm:", addListElm);
     console.log("listOfLists:", listOfLists);
     listOfLists.addNewList();
-
     listOfLists.updateLocalStorage();
+
+    addListElm.target.parentNode.remove();
+    mainElm.innerHTML += HTML.buildListContainer() + HTML.buildAddListContainer();
 });

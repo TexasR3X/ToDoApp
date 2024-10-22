@@ -47,10 +47,6 @@ button {
   cursor: pointer;
 }
 
-svg {
+[role=button] {
   cursor: pointer;
-}
-
-.completed {
-  background: #0f0;
 }/*# sourceMappingURL=main.css.map */

@@ -47,6 +47,22 @@ export class ListOfLists {
 
     toHTML() { return HTML.buildMainElm(this.lists); }
     getListByHTMLElm(elm) { return this.lists[elm.findListContainerAncestor().id.slice(10)]; }
+    contains(listName) { return this.lists[listName] !== undefined; }
+    sanitizeName(newName, i = 2) {
+        // This forces newName to be a valid name.
+        newName = newName.replace(" ", "_").replace(/[^a-z0-9-_:.]/gi, "X");
+
+        if (this.contains(newName)) {
+            if (!/_[0-9]+$/.test(newName)) { return `${newName}_${i}`; }
+            else { return this.sanitizeName(newName = newName.replace(/_[0-9]+$/, `_${i++}`)); }
+        }
+        else { return newName; }
+    }
+    addNewList() {
+        const newList = this.sanitizeName("New_List");
+
+        this.lists[newList] = new List(newList, []);
+    }
     updateLocalStorage() {
         let jsonString = "[";
         for (let list of Object.values(this.lists)) { jsonString += ` ${list.toString()},`; }
@@ -56,7 +72,6 @@ export class ListOfLists {
 
         window.localStorage.setItem("listOfLists", jsonString);
     }
-    addNewList() { this.lists["New_List"] = new List("New_List", []); }
 }
 
 export class List {
