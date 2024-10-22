@@ -4,17 +4,17 @@ import * as HTML from "./html.js";
 // Local Storage Structure:
 // [
 //     {
-//         "name": "My_To_Do_List_Name",
+//         "name": "My To Do List Name",
 //         "order": null,
 //         "tasks": ["task1", "task2", "task3"]
 //     },
 //     {
-//         "name": "Another_List",
+//         "name": "Another List",
 //         "order": null,
 //         "tasks": ["a", "b", "c"]
 //     },
 //     {
-//         "name": "Web_Dev",
+//         "name": "Web Dev",
 //         "order": null,
 //         "tasks": ["All of the work!", "More work"]
 //     }
@@ -46,23 +46,17 @@ export class ListOfLists {
     }
 
     toHTML() { return HTML.buildMainElm(this.lists); }
-    getListByHTMLElm(elm) { return this.lists[elm.findListContainerAncestor().id.slice(10)]; }
+    getListByHTMLElm(elm) { return this.lists[elm.findListContainerAncestor().dataset.id.slice(10)]; }
     contains(listName) { return this.lists[listName] !== undefined; }
-    sanitizeName(newName, i = 2) {
-        // This forces newName to be a valid name.
-        newName = newName.replace(" ", "_").replace(/[^a-z0-9-_:.]/gi, "X");
-
+    sanitizeName(newName, i = 1) {
         if (this.contains(newName)) {
-            if (!/_[0-9]+$/.test(newName)) { return `${newName}_${i}`; }
-            else { return this.sanitizeName(newName = newName.replace(/_[0-9]+$/, `_${i++}`)); }
+            if (!/ \([0-9]+\)$/.test(newName)) newName = `${newName} (${i})`;
+            i++;
+            return this.sanitizeName(newName = newName.replace(/ \([0-9]+\)$/, ` (${i})`), i);
         }
         else { return newName; }
     }
-    addNewList() {
-        const newList = this.sanitizeName("New_List");
-
-        this.lists[newList] = new List(newList, []);
-    }
+    addNewList(newList) { this.lists[newList] = new List(newList, []); }
     updateLocalStorage() {
         let jsonString = "[";
         for (let list of Object.values(this.lists)) { jsonString += ` ${list.toString()},`; }
@@ -91,6 +85,7 @@ export class List {
     push(taskName) { this.tasks.push(new Task(taskName)); }
     getTaskByLiElm(liElm) { return this.tasks[liElm.siblingIndex()]; }
     removeTaskByLiElm(liElm) { this.tasks.splice(liElm.siblingIndex(), 1); }
+    removeCompleteTasks() { }
 }
 
 export class Task {
@@ -111,12 +106,12 @@ const example = `[
     {
         "name": "Homework",
         "order": null,
-        "tasks": [{"name": "a", "complete": false}, {"name": "b", "complete": false}, {"name": "c", "complete": false}]
+        "tasks": [{"name": "a", "complete": false}, {"name": "b", "complete": true}, {"name": "c", "complete": true}]
     },
     {
-        "name": "Another_List",
+        "name": "Another List",
         "order": null,
-        "tasks": [{"name": "1", "complete": false}, {"name": "2.817", "complete": false}, {"name": "3.14", "complete": false}, {"name": "5", "complete": false}]
+        "tasks": [{"name": "1", "complete": true}, {"name": "2.817", "complete": false}, {"name": "3.14", "complete": false}, {"name": "5", "complete": false}]
     },
     {
         "name": "Web_Dev",

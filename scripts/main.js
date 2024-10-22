@@ -17,8 +17,11 @@ console.log("listOfLists:", listOfLists);
 // This defines a function to easily create event listeners that get delegated to bodyElm.
 export const addBodyEventListener = (eventType, targetSelector, callbackFn) => {
     bodyElm.addEventListener(eventType, (event) => {
-        const targetElm = event.target;
-        if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm, event); }
+        let targetElm = event.target;
+        for (let i in [0, 1]) {
+            if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) callbackFn(targetElm, event);
+            targetElm = targetElm.parentNode;
+        }
     }, true);
 }
 export const removeBodyEventListener = (eventType, targetSelector, callbackFn) => {
@@ -46,7 +49,10 @@ const useTempInput = (changingElm, reassignmentType) => {
         let updatedContent = inputElm.value;
 
         // This ensures that HTML cannot be entered into updatedContent.
-        updatedContent = updatedContent.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        updatedContent = updatedContent.replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(`"`, "&quot;");
+
+        if (reassignmentType === "list") updatedContent = listOfLists.sanitizeName(updatedContent);
+
         // This upodates the content in changingElm.
         changingElm.innerHTML = updatedContent;
 
@@ -68,7 +74,7 @@ const useTempInput = (changingElm, reassignmentType) => {
             }
         }
         else if (reassignmentType === "list") {
-            if (!!updatedContent) listOfLists.getListByHTMLElm(changingElm).name = updatedContent.replaceAll(" ", "_");
+            if (!!updatedContent) listOfLists.getListByHTMLElm(changingElm).name = updatedContent;
             else changingElm.innerHTML = originalContent;
         }
         
@@ -78,8 +84,8 @@ const useTempInput = (changingElm, reassignmentType) => {
 
 // It will make it so the user can add extra tasks to any to-do list.
 addBodyEventListener("click", "add-task", (addTaskElm) => {
-    const id = addTaskElm.parentNode.id;
-    const ulElm = document.querySelector(`#${id} ul`)
+    const dataId = addTaskElm.parentNode.dataset.id;
+    const ulElm = document.querySelector(`[data-id="${dataId}"] ul`);
 
     // This will create a new li element for the new task.
     ulElm.innerHTML += HTML.buildLiElm("", false, false);
@@ -125,12 +131,15 @@ addBodyEventListener("dblclick", "task-content", (taskContentElm) => useTempInpu
 addBodyEventListener("dblclick", "list-heading", (listElm) => useTempInput(listElm, "list"));
 
 //
-document.querySelector("#add-list").addEventListener("click", (addListElm) => {
+addBodyEventListener("click", "add-list", (addListElm) => {
     console.log("addListElm:", addListElm);
     console.log("listOfLists:", listOfLists);
-    listOfLists.addNewList();
+    
+    const newListName = listOfLists.sanitizeName("New List");
+
+    listOfLists.addNewList(newListName);
     listOfLists.updateLocalStorage();
 
-    addListElm.target.parentNode.remove();
-    mainElm.innerHTML += HTML.buildListContainer() + HTML.buildAddListContainer();
+    addListElm.parentNode.remove();
+    mainElm.innerHTML += HTML.buildListContainer(newListName, "") + HTML.buildAddListContainer();
 });
