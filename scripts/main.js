@@ -117,3 +117,12 @@ addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
 
 // This makes it so the user can edit tasks (task names).
 addBodyEventListener("dblclick", "task-content", (taskContentElm) => useTempInput(taskContentElm, "task"));
+
+//
+document.querySelector("#add-list").addEventListener("click", (addListElm) => {
+    console.log("addListElm:", addListElm);
+    console.log("listOfLists:", listOfLists);
+    listOfLists.addNewList();
+
+    listOfLists.updateLocalStorage();
+});

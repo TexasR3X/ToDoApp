@@ -56,6 +56,7 @@ export class ListOfLists {
 
         window.localStorage.setItem("listOfLists", jsonString);
     }
+    addNewList() { this.lists["New_List"] = new List("New_List", []); }
 }
 
 export class List {
@@ -67,7 +68,7 @@ export class List {
 
     toHTML() {
         let ulElm = "";
-        this.tasks.forEach((task, i) => { ulElm += HTML.buildLiElm(task.name, task.complete, false); });
+        this.tasks.forEach((task) => { ulElm += HTML.buildLiElm(task.name, task.complete, false); });
 
         return HTML.buildListContainer(this.name, ulElm);
     }
