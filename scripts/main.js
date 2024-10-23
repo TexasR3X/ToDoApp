@@ -95,7 +95,7 @@ addBodyEventListener("click", "add-task", (addTaskElm) => {
 });
 
 // This makes it so the user can mark a task as complete or incomplete.
-addBodyEventListener("click", "complete-button", (buttonElm) => {
+addBodyEventListener("click", "complete-bnt", (buttonElm) => {
     const liElm = buttonElm.parentNode;
 
     liElm.liToggleComplete();
@@ -112,11 +112,11 @@ addBodyEventListener("click", "complete-button", (buttonElm) => {
     listOfLists.updateLocalStorage();
 });
 
-// This event listener makes it so the delete-button is shown when the user hovers over its li parent.
+// This event listener makes it so the delete-bnt is shown when the user hovers over its li parent.
 hoverEventListener("LI", (targetElm) => { targetElm.children[2].style.opacity = "1"; }, (targetElm) => { targetElm.children[2].style.opacity = "0"; });
 
 // This makes it so the user can delete tasks.
-addBodyEventListener("click", "delete-button", (deleteButtonElm) => {
+addBodyEventListener("click", "delete-bnt", (deleteButtonElm) => {
     const liElm = deleteButtonElm.parentNode;
     
     listOfLists.getListByHTMLElm(liElm).removeTaskByLiElm(liElm);
@@ -141,5 +141,13 @@ addBodyEventListener("click", "add-list", (addListElm) => {
     listOfLists.updateLocalStorage();
 
     addListElm.parentNode.remove();
-    mainElm.innerHTML += HTML.buildListContainer(newListName, "") + HTML.buildAddListContainer();
+    mainElm.innerHTML += HTML.buildListContainer(newListName, "") + HTML.buildAddList();
+});
+
+//
+addBodyEventListener("click", "clear-bnt", (clearBntElm) => {
+    listOfLists.getListByHTMLElm(clearBntElm).removeCompletedTasks();
+    listOfLists.updateLocalStorage();
+
+    clearBntElm.clearCompleteLiElms();
 });

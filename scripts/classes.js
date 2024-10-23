@@ -75,17 +75,17 @@ export class List {
         this.length = this.tasks.length; // Number
     }
 
-    toHTML() {
-        let ulElm = "";
-        this.tasks.forEach((task) => { ulElm += HTML.buildLiElm(task.name, task.complete, false); });
-
-        return HTML.buildListContainer(this.name, ulElm);
-    }
+    toHTML() { return HTML.buildListContainer(this.name, HTML.buildUlElm(this.tasks)); }
     toString() { return `{ "name": "${this.name}", "order": null, "tasks": ${JSON.stringify(this.tasks)} }`; }
     push(taskName) { this.tasks.push(new Task(taskName)); }
     getTaskByLiElm(liElm) { return this.tasks[liElm.siblingIndex()]; }
     removeTaskByLiElm(liElm) { this.tasks.splice(liElm.siblingIndex(), 1); }
-    removeCompleteTasks() { }
+    removeCompletedTasks() {
+        for (let i = 0; i < this.tasks.length; null) {
+            if (this.tasks[i].complete) this.tasks.splice(i, 1);
+            else i++;
+        }
+    }
 }
 
 export class Task {
