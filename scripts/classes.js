@@ -56,7 +56,14 @@ export class ListOfLists {
         }
         else { return newName; }
     }
-    addNewList(newList) { this.lists[newList] = new List(newList, []); }
+    addNewList(newList) {
+        this.lists[newList] = new List(newList, []);
+        this.length++;
+    }
+    removeListbyHTMLElm(elm) {
+        delete this.lists[elm.findListContainerAncestor().dataset.id.slice(10)];
+        this.length--;
+    }
     updateLocalStorage() {
         let jsonString = "[";
         for (let list of Object.values(this.lists)) { jsonString += ` ${list.toString()},`; }

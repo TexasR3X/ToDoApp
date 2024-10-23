@@ -27,12 +27,14 @@ export const buildListContainer = (listName, ulContent) => {
         <div data-id="list-name-${listName}" class="list-container">
             <header>
                 <h2 class="list-heading">${listName}</h2>
-                <button class="clear-bnt">Clear Completed</button>
                 ${iconElms.downArrow}
                 ${iconElms.trash}
             </header>
             <ul>${ulContent}</ul>
-            <button class="add-task">Add Task</button>
+            <footer>
+                <button class="add-task">Add Task</button>
+                <button class="clear-bnt">Clear Completed</button>
+            </footer>
         </div>
     `;
 }

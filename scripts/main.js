@@ -93,14 +93,14 @@ const useTempInput = (changingElm, reassignmentType) => {
 
 // It will make it so the user can add extra tasks to any to-do list.
 addBodyEventListener("click", "add-task", (addTaskElm) => {
-    const dataId = addTaskElm.parentNode.dataset.id;
-    const ulElm = document.querySelector(`[data-id="${dataId}"] ul`);
+    // This finds the ul element in the .list-container that .add-task is located in.
+    const ulElm = addTaskElm.findListContainerAncestor().children[1];
 
     // This will create a new li element for the new task.
     ulElm.innerHTML += HTML.buildLiElm("", false, false);
 
     // This will create a temporary input element inside of the newe li.
-    useTempInput(ulElm.children[ulElm.children.length - 1].children[1], "task");
+    useTempInput(ulElm.lastElementChild.children[1], "task");
 });
 
 // This makes it so the user can mark a task as complete or incomplete.
@@ -125,13 +125,20 @@ addBodyEventListener("click", "complete-bnt", (buttonElm) => {
 hoverEventListener("LI", (targetElm) => { targetElm.children[2].style.opacity = "1"; }, (targetElm) => { targetElm.children[2].style.opacity = "0"; });
 
 // This makes it so the user can delete tasks.
-addBodyEventListener("click", "delete-bnt", (deleteButtonElm) => {
-    const liElm = deleteButtonElm.parentNode;
-    
-    listOfLists.getListByHTMLElm(liElm).removeTaskByLiElm(liElm);
-    listOfLists.updateLocalStorage();
+addBodyEventListener("click", "delete-bnt", (buttonElm) => {
+    let removeElm;
 
-    liElm.remove();
+    if (buttonElm.parentNode.tagName === "LI") {
+        removeElm = buttonElm.parentNode;
+        listOfLists.getListByHTMLElm(removeElm).removeTaskByLiElm(removeElm);
+    }
+    else if (buttonElm.parentNode.parentNode.classList.contains("list-container")) {
+        removeElm = buttonElm.parentNode.parentNode;
+        listOfLists.removeListbyHTMLElm(removeElm);
+    }
+
+    removeElm.remove();
+    listOfLists.updateLocalStorage();
 });
 
 // This makes it so the user can edit tasks (task names).
