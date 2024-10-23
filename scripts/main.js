@@ -73,13 +73,13 @@ const useTempInput = (changingElm, reassignmentType) => {
         if (reassignmentType === "task") {
             const liElm = changingElm.parentNode;
 
-            if (!!updatedContent) {
-                if (listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm) !== undefined) { listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm).name = updatedContent; }
-                else { listOfLists.getListByHTMLElm(liElm).push(updatedContent); }
-            }
-            else {
+            if (/^[ ]*$/.test(updatedContent)) {
                 listOfLists.getListByHTMLElm(liElm).removeTaskByLiElm(liElm);
                 liElm.remove();
+            }
+            else {
+                if (listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm) !== undefined) listOfLists.getListByHTMLElm(liElm).getTaskByLiElm(liElm).name = updatedContent;
+                else listOfLists.getListByHTMLElm(liElm).push(updatedContent);
             }
         }
         else if (reassignmentType === "list") {
