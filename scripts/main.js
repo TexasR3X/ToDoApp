@@ -18,16 +18,25 @@ console.log("listOfLists:", listOfLists);
 export const addBodyEventListener = (eventType, targetSelector, callbackFn) => {
     bodyElm.addEventListener(eventType, (event) => {
         let targetElm = event.target;
-        for (let i in [0, 1]) {
-            if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) callbackFn(targetElm, event);
+        for (let _i in [0, 1]) {
+            if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) {
+                callbackFn(targetElm, event);
+                break;
+            };
             targetElm = targetElm.parentNode;
         }
     }, true);
 }
 export const removeBodyEventListener = (eventType, targetSelector, callbackFn) => {
     bodyElm.removeEventListener(eventType, (event) => {
-        const targetElm = event.target;
-        if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) { callbackFn(targetElm, event); }
+        let targetElm = event.target;
+        for (let _i in [0, 1]) {
+            if (targetElm.tagName === targetSelector || targetElm.classList.contains(targetSelector) || targetElm.id === targetSelector) {
+                callbackFn(targetElm, event);
+                break;
+            };
+            targetElm = targetElm.parentNode;
+        }
     }, true);
 }
 // This defines a function to easily create hovering event listeners.
