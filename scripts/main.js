@@ -58,7 +58,7 @@ const useTempInput = (changingElm, reassignmentType) => {
         let updatedContent = inputElm.value;
 
         // This ensures that HTML cannot be entered into updatedContent.
-        updatedContent = updatedContent.replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(`"`, "&quot;");
+        updatedContent = updatedContent.replaceAll("<", "").replaceAll(">", "").replaceAll(`"`, "&quot;");
 
         if (reassignmentType === "list") updatedContent = listOfLists.sanitizeName(updatedContent);
 
@@ -83,7 +83,10 @@ const useTempInput = (changingElm, reassignmentType) => {
             }
         }
         else if (reassignmentType === "list") {
-            if (!!updatedContent) listOfLists.getListByHTMLElm(changingElm).name = updatedContent;
+            if (!!updatedContent) {
+                listOfLists.renameListByHTMLElm(changingElm, updatedContent);
+                changingElm.findListContainerAncestor().dataset.id = `list-name-${updatedContent}`;
+            }
             else changingElm.innerHTML = originalContent;
         }
         
@@ -134,7 +137,7 @@ addBodyEventListener("click", "delete-bnt", (buttonElm) => {
     }
     else if (buttonElm.parentNode.parentNode.classList.contains("list-container")) {
         removeElm = buttonElm.parentNode.parentNode;
-        listOfLists.removeListbyHTMLElm(removeElm);
+        listOfLists.removeListByHTMLElm(removeElm);
     }
 
     removeElm.remove();

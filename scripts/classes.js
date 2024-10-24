@@ -46,7 +46,8 @@ export class ListOfLists {
     }
 
     toHTML() { return HTML.buildMainElm(this.lists); }
-    getListByHTMLElm(elm) { return this.lists[elm.findListContainerAncestor().dataset.id.slice(10)]; }
+    findDatasetId(elm) { return elm.findListContainerAncestor().dataset.id.slice(10); }
+    getListByHTMLElm(elm) { return this.lists[this.findDatasetId(elm)]; }
     contains(listName) { return this.lists[listName] !== undefined; }
     sanitizeName(newName, i = 1) {
         if (this.contains(newName)) {
@@ -60,8 +61,15 @@ export class ListOfLists {
         this.lists[newList] = new List(newList, []);
         this.length++;
     }
-    removeListbyHTMLElm(elm) {
-        delete this.lists[elm.findListContainerAncestor().dataset.id.slice(10)];
+    renameListByHTMLElm(elm, newName) {
+        const list = this.getListByHTMLElm(elm);
+        delete this.lists[this.findDatasetId(elm)];
+
+        list.name = newName;
+        this.lists[newName] = list;
+    }
+    removeListByHTMLElm(elm) {
+        delete this.lists[this.findDatasetId(elm)];
         this.length--;
     }
     updateLocalStorage() {

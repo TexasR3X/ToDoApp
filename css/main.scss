@@ -10,11 +10,11 @@ $main-font: Rubik;
     padding: 0.2rem 0.5rem;
 }
 
-// @mixin card($color) {
-//     background: $color;
-//     border-radius: 1rem;
-//     padding: 1rem 1rem;
-// }
+@mixin card {
+    background: colors.$primary-3;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+}
 
 * {
     margin: 0;
@@ -24,11 +24,14 @@ $main-font: Rubik;
 
 body { background: colors.$primary-1; }
 
-.list-container, .add-new-list {
-    background: colors.$primary-3;
+.list-container, #add-list-container {
+    @include card;
+
     border-radius: 1rem;
     padding: 1rem 1rem;
     margin: 1rem;
+
+    header
 
     ul {
         padding-left: 1.5rem;
@@ -58,5 +61,3 @@ button {
     cursor: pointer;
 }
 [role="button"] { cursor: pointer; }
-
-// .completed { background: #0f0; }

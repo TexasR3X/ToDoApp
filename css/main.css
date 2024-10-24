@@ -9,13 +9,15 @@ body {
   background: #caf4ff;
 }
 
-.list-container, .add-new-list {
+.list-container, #add-list-container {
   background: #3ad8ff;
+  border-radius: 1rem;
+  padding: 1rem 1rem;
   border-radius: 1rem;
   padding: 1rem 1rem;
   margin: 1rem;
 }
-.list-container ul, .add-new-list ul {
+.list-container header ul, #add-list-container header ul {
   padding-left: 1.5rem;
   margin-left: -1.5rem;
 }
