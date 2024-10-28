@@ -22,7 +22,7 @@ export const buildListContainer = (listName, ulContent) => {
         <div data-id="list-name-${listName}" class="list-container">
             <header>
                 <h2 class="list-heading">${listName}</h2>
-                ${trashIconElm}
+                ${trashIconElm.replace(`width="24"  height="24"`, `width="30"  height="30"`)}
             </header>
             <ul>${ulContent}</ul>
             <footer>

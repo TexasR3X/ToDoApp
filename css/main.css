@@ -34,7 +34,7 @@ li {
 li span {
   flex-grow: 1;
 }
-li .delete-button {
+li .delete-bnt {
   opacity: 0;
   transition: opacity 0.1s linear;
 }

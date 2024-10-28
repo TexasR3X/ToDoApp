@@ -11,9 +11,6 @@ export const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLi
 // This takes the data from listOfLists variable, writes it as HTML, and puts it into the <main> element.
 mainElm.innerHTML = listOfLists.toHTML();
 
-console.log("listOfLists:", listOfLists);
-
-
 // This defines a function to easily create event listeners that get delegated to bodyElm.
 export const addBodyEventListener = (eventType, targetSelector, callbackFn) => {
     bodyElm.addEventListener(eventType, (event) => {
