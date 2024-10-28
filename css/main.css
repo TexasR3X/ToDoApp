@@ -17,7 +17,11 @@ body {
   padding: 1rem 1rem;
   margin: 1rem;
 }
-.list-container header ul, #add-list-container header ul {
+.list-container header, #add-list-container header {
+  display: flex;
+  justify-content: space-between;
+}
+.list-container ul, #add-list-container ul {
   padding-left: 1.5rem;
   margin-left: -1.5rem;
 }

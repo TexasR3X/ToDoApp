@@ -31,11 +31,14 @@ body { background: colors.$primary-1; }
     padding: 1rem 1rem;
     margin: 1rem;
 
-    header
+    header {
+        display: flex;
+        justify-content: space-between;
+    }
 
     ul {
         padding-left: 1.5rem;
-        margin-left: -1.5rem;        
+        margin-left: -1.5rem;
     }
 }
 li {
