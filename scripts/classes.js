@@ -73,13 +73,16 @@ export class ListOfLists {
         this.length--;
     }
     updateLocalStorage() {
-        let jsonString = "[";
-        for (let list of Object.values(this.lists)) { jsonString += ` ${list.toString()},`; }
-        jsonString = jsonString.slice(0, jsonString.length - 1);
-        
-        jsonString += " ]";
+        if (this.length === 0) window.localStorage.setItem("listOfLists", "[]");
+        else {
+            let jsonString = "[";
+            for (let list of Object.values(this.lists)) { jsonString += ` ${list.toString()},`; }
+            jsonString = jsonString.slice(0, jsonString.length - 1);
+            
+            jsonString += " ]";
 
-        window.localStorage.setItem("listOfLists", jsonString);
+            window.localStorage.setItem("listOfLists", jsonString);
+        }
     }
 }
 
@@ -134,6 +137,5 @@ const example = `[
         "tasks": [{"name": "All of the work!", "complete": false}]
     }
 ]`;
-
 // window.localStorage.clear();
 // window.localStorage.setItem("listOfLists", example);
