@@ -1,15 +1,3 @@
-<style>
-    .file {
-        color: #840;
-        font-weight: bold;
-    }
-    .code {
-        color: #009;
-        font-weight: bold;
-    }
-    span:hover { filter: brightness(1.4); }
-</style>
-
 # To-Do App
 ## Overview
 This app allows users to use, create, and modify multiple to-do lists.
