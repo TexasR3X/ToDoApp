@@ -6,8 +6,10 @@ HTML.updateHTMLElementClass();
 const bodyElm = document.querySelector("body");
 const mainElm = document.querySelector("main");
 
+const clickOrDbclick = (/Mobi|Android/i.test(navigator.userAgent))? "click": "dblclick";
+
 // When the page loads, this retrieves the data from local storage and puts it into listOfLists.
-export const listOfLists = new ListOfLists(window.localStorage.getItem("listOfLists"));
+export const listOfLists = new ListOfLists();
 // This takes the data from listOfLists variable, writes it as HTML, and puts it into the <main> element.
 mainElm.innerHTML = listOfLists.toHTML();
 
@@ -142,9 +144,9 @@ addBodyEventListener("click", "delete-bnt", (buttonElm) => {
 });
 
 // This makes it so the user can edit tasks (task names).
-addBodyEventListener("dblclick", "task-content", (taskContentElm) => useTempInput(taskContentElm, "task"));
+addBodyEventListener(clickOrDbclick, "task-content", (taskContentElm) => useTempInput(taskContentElm, "task"));
 // This makes it so the user can edit list names.
-addBodyEventListener("dblclick", "list-heading", (listElm) => useTempInput(listElm, "list"));
+addBodyEventListener(clickOrDbclick, "list-heading", (listElm) => useTempInput(listElm, "list"));
 
 //
 addBodyEventListener("click", "add-list", (addListElm) => {

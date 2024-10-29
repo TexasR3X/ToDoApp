@@ -5,17 +5,14 @@ import * as HTML from "./html.js";
 // [
 //     {
 //         "name": "My To Do List Name",
-//         "order": null,
 //         "tasks": ["task1", "task2", "task3"]
 //     },
 //     {
 //         "name": "Another List",
-//         "order": null,
 //         "tasks": ["a", "b", "c"]
 //     },
 //     {
 //         "name": "Web Dev",
-//         "order": null,
 //         "tasks": ["All of the work!", "More work"]
 //     }
 // ]
@@ -28,12 +25,13 @@ import * as HTML from "./html.js";
     // this.length
         // This will equal the number of lists in this.lists
 export class ListOfLists {
-    constructor(lists) {
-        lists = JSON.parse(lists);
+    constructor() {
+        const dataFromStorage = window.localStorage.getItem("listOfLists");
+        const localStorageLists = JSON.parse((!!dataFromStorage)? dataFromStorage: "[]");
 
         this.lists = {};
         // This turns each list in lists into a List object.
-        for (let list of lists) {
+        for (let list of localStorageLists) {
             // This turns each task in list.tasks into a Task object.
             for (let i = 0; i < list.tasks.length; i++) {
                 list.tasks[i] = new Task(list.tasks[i].name, list.tasks[i].complete)
@@ -42,7 +40,7 @@ export class ListOfLists {
             this.lists[list.name] = new List(list.name, list.tasks);
         }
 
-        this.length = lists.length;
+        this.length = localStorageLists.length;
     }
 
     toHTML() { return HTML.buildMainElm(this.lists); }
@@ -94,7 +92,7 @@ export class List {
     }
 
     toHTML() { return HTML.buildListContainer(this.name, HTML.buildUlElm(this.tasks)); }
-    toString() { return `{ "name": "${this.name}", "order": null, "tasks": ${JSON.stringify(this.tasks)} }`; }
+    toString() { return `{ "name": "${this.name}", "tasks": ${JSON.stringify(this.tasks)} }`; }
     push(taskName) { this.tasks.push(new Task(taskName)); }
     getTaskByLiElm(liElm) { return this.tasks[liElm.siblingIndex()]; }
     removeTaskByLiElm(liElm) { this.tasks.splice(liElm.siblingIndex(), 1); }
@@ -123,17 +121,14 @@ export class Task {
 const example = `[
     {
         "name": "Homework",
-        "order": null,
         "tasks": [{"name": "a", "complete": false}, {"name": "b", "complete": true}, {"name": "c", "complete": true}]
     },
     {
         "name": "Another List",
-        "order": null,
         "tasks": [{"name": "1", "complete": true}, {"name": "2.817", "complete": false}, {"name": "3.14", "complete": false}, {"name": "5", "complete": false}]
     },
     {
         "name": "Web_Dev",
-        "order": null,
         "tasks": [{"name": "All of the work!", "complete": false}]
     }
 ]`;
