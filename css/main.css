@@ -14,21 +14,60 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0 2rem;
+  gap: 1rem;
+}
+@media screen and (min-width: 600px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (min-width: 800px) {
+  main {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media screen and (min-width: 1200px) {
+  main {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
 .list-container, #add-list-container {
+  display: flex;
   background: #3ad8ff;
   border-radius: 1rem;
   padding: 1rem 1rem;
   border-radius: 1rem;
   padding: 1rem 1rem;
-  margin: 1rem;
+  flex-direction: column;
 }
 .list-container header, #add-list-container header {
   display: flex;
   justify-content: space-between;
 }
+.list-container header input, #add-list-container header input {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
 .list-container ul, #add-list-container ul {
   padding-left: 1.5rem;
   margin-left: -1.5rem;
+  flex-grow: 1;
+}
+.list-container footer, #add-list-container footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 li {
@@ -47,11 +86,17 @@ li .delete-bnt {
     opacity: 0;
   }
 }
-li input {
+
+input {
   border: 0;
   border-radius: 5rem;
   padding: 0.2rem 0.5rem;
   background: #3ad8ff;
+}
+
+#add-list-container {
+  justify-content: center;
+  align-items: center;
 }
 
 button {

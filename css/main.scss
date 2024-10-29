@@ -11,6 +11,7 @@ $main-font: Rubik;
 }
 
 @mixin card {
+    display: flex;
     background: colors.$primary-3;
     border-radius: 1rem;
     padding: 1rem 1rem;
@@ -28,22 +29,50 @@ h1 {
     margin: 1rem 0;
     text-align: center;
 }
+h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0 2rem;
+    gap: 1rem;
+
+    @media screen and (min-width: 600px) { grid-template-columns: 1fr 1fr; }
+    @media screen and (min-width: 800px) { grid-template-columns: 1fr 1fr 1fr; }
+    @media screen and (min-width: 1200px) { grid-template-columns: 1fr 1fr 1fr 1fr; }
+}
 
 .list-container, #add-list-container {
     @include card;
 
     border-radius: 1rem;
     padding: 1rem 1rem;
-    margin: 1rem;
+    flex-direction: column;
 
     header {
         display: flex;
         justify-content: space-between;
+
+        input {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
     }
 
     ul {
         padding-left: 1.5rem;
         margin-left: -1.5rem;
+        flex-grow: 1;
+    }
+
+    footer {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
     }
 }
 li {
@@ -56,11 +85,16 @@ li {
         @media screen and (min-width: 600px) { opacity: 0; }
         transition: opacity 0.1s linear;
     }
+}
 
-    input {
-        @include round-border;
-        background: colors.$primary-3;
-    }
+input {
+    @include round-border;
+    background: colors.$primary-3;
+}
+
+#add-list-container{
+    justify-content: center;
+    align-items: center;
 }
 
 button {
