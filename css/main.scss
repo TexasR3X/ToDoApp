@@ -24,6 +24,11 @@ $main-font: Rubik;
 
 body { background: colors.$primary-1; }
 
+h1 {
+    margin: 1rem 0;
+    text-align: center;
+}
+
 .list-container, #add-list-container {
     @include card;
 
@@ -48,7 +53,7 @@ li {
     
     span { flex-grow: 1; }
     .delete-bnt {
-        opacity: 0;
+        @media screen and (min-width: 600px) { opacity: 0; }
         transition: opacity 0.1s linear;
     }
 

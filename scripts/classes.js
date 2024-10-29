@@ -118,19 +118,19 @@ export class Task {
 
 
 // Test code to add data to local storage.
-const example = `[
-    {
-        "name": "Homework",
-        "tasks": [{"name": "a", "complete": false}, {"name": "b", "complete": true}, {"name": "c", "complete": true}]
-    },
-    {
-        "name": "Another List",
-        "tasks": [{"name": "1", "complete": true}, {"name": "2.817", "complete": false}, {"name": "3.14", "complete": false}, {"name": "5", "complete": false}]
-    },
-    {
-        "name": "Web_Dev",
-        "tasks": [{"name": "All of the work!", "complete": false}]
-    }
-]`;
+// const example = `[
+//     {
+//         "name": "Homework",
+//         "tasks": [{"name": "a", "complete": false}, {"name": "b", "complete": true}, {"name": "c", "complete": true}]
+//     },
+//     {
+//         "name": "Another List",
+//         "tasks": [{"name": "1", "complete": true}, {"name": "2.817", "complete": false}, {"name": "3.14", "complete": false}, {"name": "5", "complete": false}]
+//     },
+//     {
+//         "name": "Web_Dev",
+//         "tasks": [{"name": "All of the work!", "complete": false}]
+//     }
+// ]`;
 // window.localStorage.clear();
 // window.localStorage.setItem("listOfLists", example);

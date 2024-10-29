@@ -124,7 +124,7 @@ addBodyEventListener("click", "complete-bnt", (buttonElm) => {
 });
 
 // This event listener makes it so the delete-bnt is shown when the user hovers over its li parent.
-hoverEventListener("LI", (targetElm) => { targetElm.children[2].style.opacity = "1"; }, (targetElm) => { targetElm.children[2].style.opacity = "0"; });
+hoverEventListener("LI", (targetElm) => { targetElm.children[2].style.opacity = "1"; }, (targetElm) => { if (window.innerWidth >= 600) targetElm.children[2].style.opacity = "0"; });
 
 // This makes it so the user can delete tasks.
 addBodyEventListener("click", "delete-bnt", (buttonElm) => {

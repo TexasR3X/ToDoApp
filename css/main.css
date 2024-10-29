@@ -9,6 +9,11 @@ body {
   background: #caf4ff;
 }
 
+h1 {
+  margin: 1rem 0;
+  text-align: center;
+}
+
 .list-container, #add-list-container {
   background: #3ad8ff;
   border-radius: 1rem;
@@ -35,8 +40,12 @@ li span {
   flex-grow: 1;
 }
 li .delete-bnt {
-  opacity: 0;
   transition: opacity 0.1s linear;
+}
+@media screen and (min-width: 600px) {
+  li .delete-bnt {
+    opacity: 0;
+  }
 }
 li input {
   border: 0;
